@@ -1,4 +1,6 @@
-"use client"
+'use client'
+
+import React from "react";
 import {useEffect, useRef, useState} from "react";
 import {Button} from "@heroui/react";
 
@@ -9,16 +11,19 @@ const Header = () => {
 
     useEffect(()=>{
         // @ts-ignore
-        workerRef.current = new Worker("/videoWorker.js")
+        workerRef.current = new Worker(
+            new URL('../workers/videoWorker.ts', import.meta.url),
+            {type: 'module'}
+        )
 
 
         // @ts-ignore
         workerRef.current.onmessage = (event) => {
-            const { result } = event.data;
+            const {result} = event.data;
             setResult(result)
         }
 
-        return()=>{
+        return () => {
             // @ts-ignore
             workerRef.current.terminate();
         }
