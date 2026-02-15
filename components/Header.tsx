@@ -15,6 +15,8 @@ const Header = () => {
     const [transcoding, setTranscoding] = useState<boolean>(false);
     const [file, setFile] = useState<File | null>(null);
 
+
+
     useEffect(() => {
         const loadFFmpeg = async () => {
             try {
@@ -26,14 +28,15 @@ const Header = () => {
                     console.log(message);
                 });
 
-                const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd';
+                // Используем многопоточную UMD-версию @ffmpeg/core-mt
+                const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.6/dist/umd';
                 await ffmpeg.load({
                     coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
                     wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
                     workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
                 });
 
-                console.log('FFmpeg готов к работе');
+                console.log('FFmpeg (многопоточный) готов к работе');
             } catch (error) {
                 console.error('Ошибка загрузки ffmpeg:', error);
             } finally {
@@ -68,8 +71,8 @@ const Header = () => {
                 "-i", fileToTranscode.name,
                 "-preset", "ultrafast",
                 "-crf", "28",
-                "-vf", "hflip",
-                "-threads", "0",
+                "-vf", "hflip", // отзеркалить по горизонтали
+                "-threads", "0", // Используем все доступные потоки
                 "output.mp4"
             ]);
 
@@ -94,7 +97,7 @@ const Header = () => {
         return (
             <div className="flex items-center gap-4">
                 <Spinner/>
-                <p>Загрузка FFmpeg...</p>
+                <p>Загрузка FFmpeg (MT)...</p>
             </div>
         );
     }
@@ -104,14 +107,18 @@ const Header = () => {
             <h1 className="text-xl font-bold">Video converter</h1>
             <Input aria-label="File" type="file" onChange={handleFileChange} className="w-64" />
             <div className="flex items-center gap-4">
-                <Button onClick={() => transcode(file)} >
-                    конвертировать
+                <Button  onClick={() => transcode(file)}  isPending={transcoding}>
+                    {({isPending}) => (
+                        <>
+                            {isPending ? <Spinner color="current" size="sm" /> : null}
+                            конвертировать
+                        </>
+                    )}
                 </Button>
-                {transcoding && <Spinner/>}
             </div>
             
             <p ref={messageRef} className="text-gray-500 text-sm font-mono bg-gray-100 p-2 rounded"></p>
-            
+
             <video ref={videoRef} controls className="w-full max-w-2xl"></video>
         </div>
     );
