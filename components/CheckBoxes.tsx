@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
+import { Checkbox, Label } from '@heroui/react';
 import React from 'react';
-import {Checkbox, Label} from "@heroui/react";
 
 const CheckBoxes = () => {
     return (

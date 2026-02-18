@@ -1,11 +1,11 @@
-import Header from "@/components/Header";
-import CheckBoxes from "@/components/CheckBoxes";
+import CheckBoxes from '@/components/CheckBoxes';
+import Header from '@/components/Header';
 
 export default function Home() {
-  return (
-      <div className={"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"}>
-         <Header/>
-          <CheckBoxes/>
-      </div>
-  );
+    return (
+        <div className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
+            <Header />
+            <CheckBoxes />
+        </div>
+    );
 }

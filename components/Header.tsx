@@ -1,10 +1,9 @@
-'use client'
+'use client';
 
-
-import React, {useEffect, useRef, useState} from "react";
-import {Button, Input, Spinner} from "@heroui/react";
-import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { fetchFile, toBlobURL } from "@ffmpeg/util";
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile, toBlobURL } from '@ffmpeg/util';
+import { Button, Input, Spinner } from '@heroui/react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const Header = () => {
     const ffmpegRef = useRef<FFmpeg | null>(null);
@@ -14,8 +13,6 @@ const Header = () => {
     const [loader, setLoader] = useState<boolean>(true);
     const [transcoding, setTranscoding] = useState<boolean>(false);
     const [file, setFile] = useState<File | null>(null);
-
-
 
     useEffect(() => {
         const loadFFmpeg = async () => {
@@ -45,10 +42,10 @@ const Header = () => {
         };
 
         loadFFmpeg();
-    }, [])
+    }, []);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(e.target.files?.[0]) {
+        if (e.target.files?.[0]) {
             setFile(e.target.files[0]);
         }
     };
@@ -62,53 +59,53 @@ const Header = () => {
                 return;
             }
 
-            await ffmpeg?.writeFile(
-                fileToTranscode.name,
-                await fetchFile(fileToTranscode)
-            );
+            await ffmpeg?.writeFile(fileToTranscode.name, await fetchFile(fileToTranscode));
 
             await ffmpeg?.exec([
-                "-i", fileToTranscode.name,
-                "-preset", "ultrafast",
-                "-crf", "28",
-                "-vf", "hflip", // отзеркалить по горизонтали
-                "-threads", "0", // Используем все доступные потоки
-                "output.mp4"
+                '-i',
+                fileToTranscode.name,
+                '-preset',
+                'ultrafast',
+                '-crf',
+                '28',
+                '-vf',
+                'hflip', // отзеркалить по горизонтали
+                '-threads',
+                '0', // Используем все доступные потоки
+                'output.mp4',
             ]);
 
-            const data = (await ffmpeg?.readFile("output.mp4")) as any;
+            const data = (await ffmpeg?.readFile('output.mp4')) as any;
 
             if (videoRef.current) {
-                videoRef.current.src = URL.createObjectURL(
-                    new Blob([data.buffer], { type: "video/mp4" })
-                );
+                videoRef.current.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
             }
         } catch (error) {
-            console.error("Ошибка во время конвертации:", error);
+            console.error('Ошибка во время конвертации:', error);
             if (messageRef.current) {
-                messageRef.current.innerHTML = "Произошла ошибка. Попробуйте другой файл.";
+                messageRef.current.innerHTML = 'Произошла ошибка. Попробуйте другой файл.';
             }
         } finally {
             setTranscoding(false);
         }
-    }
+    };
 
-    if(loader) {
+    if (loader) {
         return (
             <div className="flex items-center gap-4">
-                <Spinner/>
+                <Spinner />
                 <p>Загрузка FFmpeg (MT)...</p>
             </div>
         );
     }
 
     return (
-        <div className={"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-2 p-4 space-y-4"}>
+        <div className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-2 p-4 space-y-4'}>
             <h1 className="text-xl font-bold">Video converter</h1>
             <Input aria-label="File" type="file" onChange={handleFileChange} className="w-64" />
             <div className="flex items-center gap-4">
-                <Button  onClick={() => transcode(file)}  isPending={transcoding}>
-                    {({isPending}) => (
+                <Button onClick={() => transcode(file)} isPending={transcoding}>
+                    {({ isPending }) => (
                         <>
                             {isPending ? <Spinner color="current" size="sm" /> : null}
                             конвертировать
@@ -116,7 +113,7 @@ const Header = () => {
                     )}
                 </Button>
             </div>
-            
+
             <p ref={messageRef} className="text-gray-500 text-sm font-mono bg-gray-100 p-2 rounded"></p>
 
             <video ref={videoRef} controls className="w-full max-w-2xl"></video>
