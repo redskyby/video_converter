@@ -1,4 +1,4 @@
-export type Customization = "flipHorizontal" | "flipVertical" | "preset" | "crf";
+export type Customization = 'flipHorizontal' | 'flipVertical' | 'preset' | 'crf';
 
 export type Value = boolean | string | number;
 
