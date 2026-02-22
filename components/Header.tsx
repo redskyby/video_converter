@@ -1,48 +1,20 @@
 'use client';
 
-import { FFmpeg } from '@ffmpeg/ffmpeg';
-import { fetchFile, toBlobURL } from '@ffmpeg/util';
+import { fetchFile } from '@ffmpeg/util';
 import { Button, Input, Spinner } from '@heroui/react';
 import React, { useEffect, useRef, useState } from 'react';
 
-const Header = () => {
-    const ffmpegRef = useRef<FFmpeg | null>(null);
-    const videoRef = useRef<HTMLVideoElement | null>(null);
-    const messageRef = useRef<HTMLParagraphElement | null>(null);
+import { useFFmpeg } from '@/hooks/useFFmpeg';
+import { buildFFmpegArgs } from '@/utils/buildFFmpegArgs';
 
-    const [loader, setLoader] = useState<boolean>(true);
+const Header = () => {
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const videoUrlRef = useRef<string | null>(null);
+
     const [transcoding, setTranscoding] = useState<boolean>(false);
     const [file, setFile] = useState<File | null>(null);
 
-    useEffect(() => {
-        const loadFFmpeg = async () => {
-            try {
-                const ffmpeg = new FFmpeg();
-                ffmpegRef.current = ffmpeg;
-
-                ffmpeg.on('log', ({ message }) => {
-                    if (messageRef.current) messageRef.current.innerHTML = message;
-                    console.log(message);
-                });
-
-                // Используем многопоточную UMD-версию @ffmpeg/core-mt
-                const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.6/dist/umd';
-                await ffmpeg.load({
-                    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-                    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
-                    workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
-                });
-
-                console.log('FFmpeg (многопоточный) готов к работе');
-            } catch (error) {
-                console.error('Ошибка загрузки ffmpeg:', error);
-            } finally {
-                setLoader(false);
-            }
-        };
-
-        loadFFmpeg();
-    }, []);
+    const { ffmpegRef, isLoaded, logs } = useFFmpeg();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
@@ -50,47 +22,55 @@ const Header = () => {
         }
     };
 
-    const transcode = async (fileToTranscode: File | null) => {
+    const transcode = async (file: File | null) => {
         try {
             setTranscoding(true);
 
-            const ffmpeg = ffmpegRef.current;
-            if (!fileToTranscode) {
+            if (!file) {
                 return;
             }
 
-            await ffmpeg?.writeFile(fileToTranscode.name, await fetchFile(fileToTranscode));
+            const ffmpeg = ffmpegRef.current;
 
-            await ffmpeg?.exec([
-                '-i',
-                fileToTranscode.name,
-                '-preset',
-                'ultrafast',
-                '-crf',
-                '28',
-                '-vf',
-                'hflip', // отзеркалить по горизонтали
-                '-threads',
-                '0', // Используем все доступные потоки
-                'output.mp4',
-            ]);
+            await ffmpeg?.writeFile(file.name, await fetchFile(file));
 
-            const data = (await ffmpeg?.readFile('output.mp4')) as any;
+            const args = buildFFmpegArgs(file.name);
 
-            if (videoRef.current) {
-                videoRef.current.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+            await ffmpeg?.exec(args);
+
+            const data = await ffmpeg?.readFile('output.mp4');
+
+            if (videoRef.current && data instanceof Uint8Array) {
+                // 🔥 если был старый URL — освобождаем
+                if (videoUrlRef.current) {
+                    URL.revokeObjectURL(videoUrlRef.current);
+                }
+
+                const blob = new Blob([new Uint8Array(data)], {
+                    type: 'video/mp4',
+                });
+
+                const url = URL.createObjectURL(blob);
+
+                videoUrlRef.current = url; // сохраняем новый URL
+                videoRef.current.src = url;
             }
         } catch (error) {
             console.error('Ошибка во время конвертации:', error);
-            if (messageRef.current) {
-                messageRef.current.innerHTML = 'Произошла ошибка. Попробуйте другой файл.';
-            }
         } finally {
             setTranscoding(false);
         }
     };
 
-    if (loader) {
+    useEffect(() => {
+        return () => {
+            if (videoUrlRef.current) {
+                URL.revokeObjectURL(videoUrlRef.current);
+            }
+        };
+    }, []);
+
+    if (isLoaded) {
         return (
             <div className="flex items-center gap-4">
                 <Spinner />
@@ -114,7 +94,11 @@ const Header = () => {
                 </Button>
             </div>
 
-            <p ref={messageRef} className="text-gray-500 text-sm font-mono bg-gray-100 p-2 rounded"></p>
+            <div className="bg-gray-100 p-2 rounded text-xs font-mono max-h-40 overflow-auto">
+                {logs.map((log, i) => (
+                    <div key={i}>{log}</div>
+                ))}
+            </div>
 
             <video ref={videoRef} controls className="w-full max-w-2xl"></video>
         </div>
