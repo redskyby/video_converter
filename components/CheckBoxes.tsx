@@ -6,10 +6,11 @@ import React from 'react';
 import { useVideoStore } from '@/store';
 
 const CheckBoxes = () => {
+    const setOption = useVideoStore((s) => s.setOption);
+
     const flipHorizontal = useVideoStore((s) => s.flipHorizontal);
     const flipVertical = useVideoStore((s) => s.flipVertical);
-
-    const setOption = useVideoStore((s) => s.setOption);
+    const removeMetadata = useVideoStore((s) => s.removeMetadata);
 
     return (
         <CheckboxGroup name="video-options">
@@ -41,6 +42,20 @@ const CheckBoxes = () => {
                 <Checkbox.Content>
                     <Label>Отзеркалить по вертикали</Label>
                     <Description>Переворачивает видео сверху вниз</Description>
+                </Checkbox.Content>
+            </Checkbox>
+
+            <Checkbox
+                value="removeMetadata"
+                isSelected={removeMetadata}
+                onChange={() => setOption('removeMetadata', !removeMetadata)}
+            >
+                <Checkbox.Control>
+                    <Checkbox.Indicator />
+                </Checkbox.Control>
+                <Checkbox.Content>
+                    <Label>Удалить методанные</Label>
+                    <Description>Удаление методанных из видео</Description>
                 </Checkbox.Content>
             </Checkbox>
         </CheckboxGroup>

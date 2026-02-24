@@ -7,6 +7,6 @@ export const useVideoStore = create<VideoState>((set) => ({
     flipVertical: false,
     preset: 'ultrafast',
     crf: 28,
-
+    removeMetadata: false,
     setOption: (key, value) => set({ [key]: value }),
 }));
