@@ -6,11 +6,13 @@ import React from 'react';
 import { useVideoStore } from '@/store';
 
 const CheckBoxes = () => {
-    const setOption = useVideoStore((s) => s.setOption);
-
     const flipHorizontal = useVideoStore((s) => s.flipHorizontal);
     const flipVertical = useVideoStore((s) => s.flipVertical);
     const removeMetadata = useVideoStore((s) => s.removeMetadata);
+
+    const setFlipHorizontal = useVideoStore((s) => s.setFlipHorizontal);
+    const setFlipVertical = useVideoStore((s) => s.setFlipVertical);
+    const setRemoveMetadata = useVideoStore((s) => s.setRemoveMetadata);
 
     return (
         <CheckboxGroup name="video-options">
@@ -20,7 +22,7 @@ const CheckBoxes = () => {
             <Checkbox
                 value="flipHorizontal"
                 isSelected={flipHorizontal}
-                onChange={() => setOption('flipHorizontal', !flipHorizontal)}
+                onChange={(isSelected) => setFlipHorizontal(isSelected)}
             >
                 <Checkbox.Control>
                     <Checkbox.Indicator />
@@ -34,7 +36,7 @@ const CheckBoxes = () => {
             <Checkbox
                 value="flipVertical"
                 isSelected={flipVertical}
-                onChange={() => setOption('flipVertical', !flipVertical)}
+                onChange={(isSelected) => setFlipVertical(isSelected)}
             >
                 <Checkbox.Control>
                     <Checkbox.Indicator />
@@ -48,7 +50,7 @@ const CheckBoxes = () => {
             <Checkbox
                 value="removeMetadata"
                 isSelected={removeMetadata}
-                onChange={() => setOption('removeMetadata', !removeMetadata)}
+                onChange={(isSelected) => setRemoveMetadata(isSelected)}
             >
                 <Checkbox.Control>
                     <Checkbox.Indicator />
