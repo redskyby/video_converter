@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { VideoState } from '@/types';
+import { VideoState } from '@/interfaces';
 
 export const useVideoStore = create<VideoState>((set) => ({
     flipHorizontal: false,
