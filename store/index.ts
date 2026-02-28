@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-import { VideoState } from '@/interfaces';
+import { VideoDetails } from '@/interfaces';
 
-export const useVideoStore = create<VideoState>((set) => ({
+export const useVideoStore = create<VideoDetails>((set) => ({
     flipHorizontal: false,
     flipVertical: false,
     preset: 'ultrafast',

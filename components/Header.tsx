@@ -2,7 +2,7 @@
 
 import { fetchFile } from '@ffmpeg/util';
 import { Button, Input, Spinner } from '@heroui/react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 
 import { useFFmpeg } from '@/hooks/useFFmpeg';
 import { buildFFmpegArgs } from '@/utils/buildFFmpegArgs';

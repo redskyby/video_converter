@@ -1,4 +1,4 @@
-export interface VideoState {
+export interface VideoDetails {
     flipHorizontal: boolean;
     flipVertical: boolean;
     preset: string;
@@ -10,4 +10,9 @@ export interface VideoState {
     setPreset: (value: string) => void;
     setCrf: (value: number) => void;
     setRemoveMetadata: (value: boolean) => void;
+}
+
+export interface VideoState {
+    file: File | null;
+    setFile: (file: File | null) => void;
 }
