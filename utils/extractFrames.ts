@@ -8,7 +8,9 @@ export const extractFrames = async (file: File, frameCount: number): Promise<Fra
 
         const frames: Frame[] = [];
 
-        video.src = URL.createObjectURL(file);
+        // Сохраняем URL, чтобы его можно было очистить
+        const videoUrl = URL.createObjectURL(file);
+        video.src = videoUrl;
         video.muted = true;
         video.playsInline = true;
 
@@ -40,7 +42,16 @@ export const extractFrames = async (file: File, frameCount: number): Promise<Fra
                 });
             }
 
+            // 👇 Очищаем URL самого видеофайла после того, как все кадры извлечены
+            URL.revokeObjectURL(videoUrl);
+
             resolve(frames);
+        };
+
+        video.onerror = () => {
+            // Также очищаем в случае ошибки
+            URL.revokeObjectURL(videoUrl);
+            resolve([]); // или reject, в зависимости от желаемой обработки ошибок
         };
     });
 };

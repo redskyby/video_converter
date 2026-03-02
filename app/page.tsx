@@ -1,10 +1,6 @@
-'use client';
-
-import { useState } from 'react';
-
-import CheckBoxes from '@/components/CheckBoxes';
-import Header from '@/components/Header';
-import TimeLines from '@/components/TimeLines';
+import CheckBoxes from '@/features/CheckBoxes';
+import TimeLines from '@/features/TimeLines';
+import Header from '@/widgets/Header';
 
 export default function Home() {
     return (

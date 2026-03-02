@@ -1,7 +1,7 @@
-import { useVideoStore } from '@/store';
+import { useVideoDetailsStore } from '@/store';
 
 export const buildFFmpegArgs = (fileName: string) => {
-    const { flipHorizontal, flipVertical, preset, crf, removeMetadata } = useVideoStore.getState();
+    const { flipHorizontal, flipVertical, preset, crf, removeMetadata } = useVideoDetailsStore.getState();
 
     const filters: string[] = [];
 

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { VideoDetails } from '@/interfaces';
 
-export const useVideoStore = create<VideoDetails>((set) => ({
+export const useVideoDetailsStore = create<VideoDetails>((set) => ({
     flipHorizontal: false,
     flipVertical: false,
     preset: 'ultrafast',

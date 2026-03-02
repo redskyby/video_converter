@@ -3,16 +3,16 @@
 import { Checkbox, CheckboxGroup, Description, Label } from '@heroui/react';
 import React from 'react';
 
-import { useVideoStore } from '@/store';
+import { useVideoDetailsStore } from '@/store';
 
 const CheckBoxes = () => {
-    const flipHorizontal = useVideoStore((s) => s.flipHorizontal);
-    const flipVertical = useVideoStore((s) => s.flipVertical);
-    const removeMetadata = useVideoStore((s) => s.removeMetadata);
+    const flipHorizontal = useVideoDetailsStore((s) => s.flipHorizontal);
+    const flipVertical = useVideoDetailsStore((s) => s.flipVertical);
+    const removeMetadata = useVideoDetailsStore((s) => s.removeMetadata);
 
-    const setFlipHorizontal = useVideoStore((s) => s.setFlipHorizontal);
-    const setFlipVertical = useVideoStore((s) => s.setFlipVertical);
-    const setRemoveMetadata = useVideoStore((s) => s.setRemoveMetadata);
+    const setFlipHorizontal = useVideoDetailsStore((s) => s.setFlipHorizontal);
+    const setFlipVertical = useVideoDetailsStore((s) => s.setFlipVertical);
+    const setRemoveMetadata = useVideoDetailsStore((s) => s.setRemoveMetadata);
 
     return (
         <CheckboxGroup name="video-options">
