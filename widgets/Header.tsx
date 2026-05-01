@@ -13,10 +13,10 @@ const Header = () => {
     const videoUrlRef = useRef<string | null>(null);
 
     const [transcoding, setTranscoding] = useState<boolean>(false);
-    // const [file, setFile] = useState<File | null>(null);
 
     const { ffmpegRef, isLoaded, logs } = useFFmpeg();
 
+    const file = useVideoStore((s) => s.file);
     const setFile = useVideoStore((s) => s.setFile);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +67,25 @@ const Header = () => {
     };
 
     useEffect(() => {
+        if (!file || !videoRef.current) return;
+
+        // 🔥 если был старый URL — освобождаем
+        if (videoUrlRef.current) {
+            URL.revokeObjectURL(videoUrlRef.current);
+        }
+
+        const url = URL.createObjectURL(file);
+        videoUrlRef.current = url;
+        videoRef.current.src = url;
+
+        return () => {
+            if (videoUrlRef.current) {
+                URL.revokeObjectURL(videoUrlRef.current);
+            }
+        };
+    }, [file]);
+
+    useEffect(() => {
         return () => {
             if (videoUrlRef.current) {
                 URL.revokeObjectURL(videoUrlRef.current);
@@ -98,13 +117,9 @@ const Header = () => {
                 </Button>
             </div>
 
-            <div className="bg-gray-100 p-2 rounded text-xs font-mono max-h-40 overflow-auto">
-                {logs.map((log, i) => (
-                    <div key={i}>{log}</div>
-                ))}
-            </div>
+            <div className="bg-gray-100 p-2 rounded text-xs font-mono max-h-40 overflow-auto">{logs}</div>
 
-            <video ref={videoRef} controls className="w-full max-w-2xl"></video>
+            {file && <video ref={videoRef} controls className="w-full max-w-2xl"></video>}
         </div>
     );
 };
