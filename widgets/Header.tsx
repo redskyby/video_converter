@@ -7,14 +7,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useFFmpeg } from '@/hooks/useFFmpeg';
 import { useVideoStore } from '@/store/video';
 import { buildFFmpegArgs } from '@/utils/buildFFmpegArgs';
+import { detectPlatform } from '@/utils/detectPlatform';
 
 const Header = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const videoUrlRef = useRef<string | null>(null);
 
     const [transcoding, setTranscoding] = useState<boolean>(false);
+    const [platform] = useState<string>(() => detectPlatform());
 
-    const { ffmpegRef, isLoaded, logs } = useFFmpeg();
+    const { ffmpegRef, isLoaded, logs, error } = useFFmpeg();
 
     const file = useVideoStore((s) => s.file);
     const setFile = useVideoStore((s) => s.setFile);
@@ -97,14 +99,40 @@ const Header = () => {
         return (
             <div className="flex items-center gap-4">
                 <Spinner />
-                <p>Загрузка FFmpeg (MT)...</p>
+                <div className="flex flex-col gap-2">
+                    <p>Загрузка FFmpeg {platform === 'mobile' ? '(однопоточная)' : '(многопоточная)'}...</p>
+                    {platform && (
+                        <p className="text-xs text-gray-600">
+                            📱 Платформа: {platform === 'mobile' ? 'Мобильное устройство' : 'Десктоп'}
+                        </p>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center gap-4 bg-red-100 p-4 rounded-lg border-2 border-red-500">
+                <div className="flex-1">
+                    <p className="text-red-800 font-semibold">❌ Ошибка загрузки FFmpeg</p>
+                    <p className="text-red-700 text-sm">{error}</p>
+                </div>
             </div>
         );
     }
 
     return (
         <div className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-2 p-4 space-y-4'}>
-            <h1 className="text-xl font-bold">Video converter</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-xl font-bold">Video converter</h1>
+                {platform && (
+                    <p className="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded">
+                        {platform === 'mobile' ? '📱 Мобильное' : '🖥️ Десктоп'} • FFmpeg{' '}
+                        {platform === 'mobile' ? 'однопоточный' : 'многопоточный'}
+                    </p>
+                )}
+            </div>
             <Input aria-label="File" type="file" onChange={handleFileChange} className="w-64" />
             <div className="flex items-center gap-4">
                 <Button onClick={transcode} isPending={transcoding}>
