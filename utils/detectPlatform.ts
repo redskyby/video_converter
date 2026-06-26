@@ -1,9 +1,5 @@
-export type Platform = 'mobile' | 'desktop';
+import { Platform } from '@/types';
 
-/**
- * Определяет тип платформы пользователя
- * @returns 'mobile' для мобильных устройств, 'desktop' для ПК
- */
 export const detectPlatform = (): Platform => {
     // Проверяем только на клиенте
     if (typeof window === 'undefined') {
@@ -35,18 +31,4 @@ export const detectPlatform = (): Platform => {
     }
 
     return 'desktop';
-};
-
-/**
- * Получает базовый URL для FFmpeg в зависимости от платформы
- */
-export const getFFmpegBaseURL = (platform: Platform): string => {
-    const version = '0.12.10';
-
-    if (platform === 'mobile') {
-        // Однопоточная версия для мобильных
-        return `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${version}/dist/umd`;
-    }
-    // Многопоточная версия для ПК
-    return `https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@${version}/dist/umd`;
 };
