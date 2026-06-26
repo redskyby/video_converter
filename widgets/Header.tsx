@@ -46,20 +46,31 @@ const Header = () => {
 
             const data = await ffmpeg?.readFile('output.mp4');
 
-            if (videoRef.current && data instanceof Uint8Array) {
+            // Проверяем, что данные есть и это вид на ArrayBuffer (Uint8Array или похожий)
+            if (videoRef.current && data && ArrayBuffer.isView(data as ArrayBufferView)) {
                 // 🔥 если был старый URL — освобождаем
                 if (videoUrlRef.current) {
                     URL.revokeObjectURL(videoUrlRef.current);
                 }
 
-                const blob = new Blob([new Uint8Array(data)], {
+                const uint8 = data as Uint8Array;
+
+                // Приводим буфер к ArrayBuffer, чтобы соответствовать типам BlobPart
+                const blob = new Blob([uint8.buffer as ArrayBuffer], {
                     type: 'video/mp4',
                 });
 
-                const url = URL.createObjectURL(blob);
+                // Создаем объект File из blob, чтобы соответствовать типу в сторе
+                const newFile = new File([blob], 'output.mp4', { type: 'video/mp4' });
+
+                const url = URL.createObjectURL(newFile);
 
                 videoUrlRef.current = url; // сохраняем новый URL
                 videoRef.current.src = url;
+
+                // Обновляем глобальный стор — теперь другие компоненты (например, TimeLines)
+                // увидят новый отформатированный файл и смогут обработать его
+                setFile(newFile);
             }
         } catch (error) {
             console.error('Ошибка во время конвертации:', error);

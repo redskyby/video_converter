@@ -1,21 +1,19 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useVideoStore } from '@/store/video';
-import { Frame } from '@/types'; // Импортируем тип Frame
+import { Frame } from '@/types';
 import { extractFrames } from '@/utils/extractFrames';
 
 const TimeLines = () => {
     const file = useVideoStore((state) => state.file);
     const [frames, setFrames] = useState<Frame[]>([]);
+    const frameUrlsRef = useRef<string[]>([]);
 
     useEffect(() => {
         // Если файла нет, ничего не делаем
-        if (!file) {
-            setFrames([]); // Очищаем кадры, если файл был удален
-            return;
-        }
+        if (!file) return;
 
         let isCancelled = false; // Флаг для предотвращения обновления состояния после размонтирования
 
@@ -27,6 +25,7 @@ const TimeLines = () => {
                 // Если компонент не размонтирован и эффект не был запущен заново, обновляем состояние
                 if (!isCancelled) {
                     console.log('Извлеченные кадры:', extractedFrames);
+                    frameUrlsRef.current = extractedFrames.map((f) => f.url);
                     setFrames(extractedFrames);
                 }
             } catch (error) {
@@ -41,7 +40,8 @@ const TimeLines = () => {
             isCancelled = true; // Помечаем, что работа эффекта прервана
             console.log('Очистка... Удаление', frames.length, 'кадров.');
             // Освобождаем память от всех URL-адресов кадров
-            frames.forEach((frame) => URL.revokeObjectURL(frame.url));
+            frameUrlsRef.current.forEach((url) => URL.revokeObjectURL(url)); // чистим через ref
+            frameUrlsRef.current = [];
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [file]); // Эффект зависит от `file`. `frames` добавлено в `eslint-disable` чтобы избежать зацикливания
