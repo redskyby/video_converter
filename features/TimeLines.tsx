@@ -43,7 +43,6 @@ const TimeLines = () => {
             frameUrlsRef.current.forEach((url) => URL.revokeObjectURL(url)); // чистим через ref
             frameUrlsRef.current = [];
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [file]); // Эффект зависит от `file`. `frames` добавлено в `eslint-disable` чтобы избежать зацикливания
 
     return (
