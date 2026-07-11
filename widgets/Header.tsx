@@ -14,6 +14,7 @@ const Header = () => {
     const videoUrlRef = useRef<string | null>(null);
 
     const [transcoding, setTranscoding] = useState<boolean>(false);
+    const [buttonDisable, setButtonDisable] = useState<boolean>(true);
     const [platform] = useState<string>(() => detectPlatform());
 
     const { ffmpegRef, isLoaded, logs, error } = useFFmpeg();
@@ -24,6 +25,7 @@ const Header = () => {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
             setFile(e.target.files[0]);
+            setButtonDisable(false);
         }
     };
 
@@ -146,7 +148,7 @@ const Header = () => {
             </div>
             <Input aria-label="File" type="file" onChange={handleFileChange} className="w-64" />
             <div className="flex items-center gap-4">
-                <Button onClick={transcode} isPending={transcoding}>
+                <Button onClick={transcode} isPending={transcoding} isDisabled={buttonDisable}>
                     {({ isPending }) => (
                         <>
                             {isPending ? <Spinner color="current" size="sm" /> : null}
