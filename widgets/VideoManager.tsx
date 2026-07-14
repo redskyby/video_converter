@@ -9,7 +9,7 @@ import { useVideoStore } from '@/store/video';
 import { buildFFmpegArgs } from '@/utils/buildFFmpegArgs';
 import { detectPlatform } from '@/utils/detectPlatform';
 
-const Header = () => {
+const VideoManager = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const videoUrlRef = useRef<string | null>(null);
 
@@ -165,4 +165,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default VideoManager;
