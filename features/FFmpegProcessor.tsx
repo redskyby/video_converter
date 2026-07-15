@@ -4,8 +4,8 @@ import { Button, Spinner } from '@heroui/react';
 import React, { useState } from 'react';
 
 import { useFFmpeg } from '@/hooks/useFFmpeg';
-import processVideo from '@/shared/utils/processVideo';
 import { useVideoStore } from '@/store/video';
+import processVideo from '@/utils/processVideo';
 
 const FFmpegProcessor = () => {
     const { ffmpegRef, isLoaded, logs, error } = useFFmpeg();

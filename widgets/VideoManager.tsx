@@ -1,19 +1,23 @@
 'use client';
 
 import { fetchFile } from '@ffmpeg/util';
-import { Button, Input, Spinner } from '@heroui/react';
+import { Spinner } from '@heroui/react';
 import React, { useEffect, useRef, useState } from 'react';
 
+import ConvertButton from '@/features/ConvertButton';
+import FileUploader from '@/features/FileUploader';
 import { useFFmpeg } from '@/hooks/useFFmpeg';
 import { useVideoStore } from '@/store/video';
 import { buildFFmpegArgs } from '@/utils/buildFFmpegArgs';
 import { detectPlatform } from '@/utils/detectPlatform';
 
-const VideoManager = () => {
+//TODO : REFACTOR IT
+
+function VideoManager() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const videoUrlRef = useRef<string | null>(null);
 
-    const [transcoding, setTranscoding] = useState<boolean>(false);
+    const [transcode, setTranscoding] = useState<boolean>(false);
     const [buttonDisable, setButtonDisable] = useState<boolean>(true);
     const [platform] = useState<string>(() => detectPlatform());
 
@@ -22,14 +26,7 @@ const VideoManager = () => {
     const file = useVideoStore((s) => s.file);
     const setFile = useVideoStore((s) => s.setFile);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files?.[0]) {
-            setFile(e.target.files[0]);
-            setButtonDisable(false);
-        }
-    };
-
-    const transcode = async () => {
+    const handleVideoProcessing = async () => {
         try {
             setTranscoding(true);
             const { file } = useVideoStore.getState();
@@ -78,6 +75,7 @@ const VideoManager = () => {
             console.error('Ошибка во время конвертации:', error);
         } finally {
             setTranscoding(false);
+            setButtonDisable(true);
         }
     };
 
@@ -92,6 +90,8 @@ const VideoManager = () => {
         const url = URL.createObjectURL(file);
         videoUrlRef.current = url;
         videoRef.current.src = url;
+
+        setButtonDisable(false);
 
         return () => {
             if (videoUrlRef.current) {
@@ -146,23 +146,14 @@ const VideoManager = () => {
                     </p>
                 )}
             </div>
-            <Input aria-label="File" type="file" onChange={handleFileChange} className="w-64" />
-            <div className="flex items-center gap-4">
-                <Button onClick={transcode} isPending={transcoding} isDisabled={buttonDisable}>
-                    {({ isPending }) => (
-                        <>
-                            {isPending ? <Spinner color="current" size="sm" /> : null}
-                            конвертировать
-                        </>
-                    )}
-                </Button>
-            </div>
+            <FileUploader />
+            <ConvertButton onClick={handleVideoProcessing} isPending={transcode} isDisabled={buttonDisable} />
 
             <div className="bg-gray-100 p-2 rounded text-xs font-mono max-h-40 overflow-auto">{logs}</div>
 
             {file && <video ref={videoRef} controls className="w-full max-w-2xl"></video>}
         </div>
     );
-};
+}
 
 export default VideoManager;
