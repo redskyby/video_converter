@@ -10,7 +10,6 @@ export async function handleVideoProcessing({
     videoRef,
     videoUrlRef,
     setFile,
-    setButtonDisable,
 }: handleVideoProcessingProps) {
     try {
         setTranscoding(true);
@@ -63,6 +62,5 @@ export async function handleVideoProcessing({
         console.error('Ошибка во время конвертации:', error);
     } finally {
         setTranscoding(false);
-        setButtonDisable(true);
     }
 }

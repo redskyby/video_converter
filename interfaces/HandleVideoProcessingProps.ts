@@ -6,5 +6,4 @@ export interface handleVideoProcessingProps {
     videoRef: React.RefObject<HTMLVideoElement | null>;
     videoUrlRef: React.RefObject<string | null>;
     setFile: (file: File | null) => void;
-    setButtonDisable: React.Dispatch<React.SetStateAction<boolean>>;
 }

@@ -1,12 +1,12 @@
 'use client';
 
-import { fetchFile } from '@ffmpeg/util';
 import { Spinner } from '@heroui/react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import ConvertButton from '@/features/ConvertButton';
 import FileUploader from '@/features/FileUploader';
 import { useFFmpeg } from '@/hooks/useFFmpeg';
+import { useVideoPreview } from '@/hooks/useVideoPreview';
 import { useVideoStore } from '@/store/video';
 import { detectPlatform } from '@/utils/detectPlatform';
 import { handleVideoProcessing } from '@/utils/VideoProcessing';
@@ -14,50 +14,20 @@ import { handleVideoProcessing } from '@/utils/VideoProcessing';
 //TODO : REFACTOR IT
 
 function VideoManager() {
-    const videoRef = useRef<HTMLVideoElement | null>(null);
     const videoUrlRef = useRef<string | null>(null);
 
     const [transcode, setTranscoding] = useState<boolean>(false);
-    const [buttonDisable, setButtonDisable] = useState<boolean>(true);
     const [platform] = useState<string>(() => detectPlatform());
 
     const { ffmpegRef, isLoaded, logs, error } = useFFmpeg();
+    const { videoRef, isFileReady } = useVideoPreview();
 
     const file = useVideoStore((s) => s.file);
     const setFile = useVideoStore((s) => s.setFile);
 
     const handleConversion = async () => {
-        await handleVideoProcessing({ ffmpegRef, setTranscoding, videoRef, videoUrlRef, setFile, setButtonDisable });
+        await handleVideoProcessing({ ffmpegRef, setTranscoding, videoRef, videoUrlRef, setFile });
     };
-
-    useEffect(() => {
-        if (!file || !videoRef.current) return;
-
-        // 🔥 если был старый URL — освобождаем
-        if (videoUrlRef.current) {
-            URL.revokeObjectURL(videoUrlRef.current);
-        }
-
-        const url = URL.createObjectURL(file);
-        videoUrlRef.current = url;
-        videoRef.current.src = url;
-
-        setButtonDisable(false);
-
-        return () => {
-            if (videoUrlRef.current) {
-                URL.revokeObjectURL(videoUrlRef.current);
-            }
-        };
-    }, [file]);
-
-    useEffect(() => {
-        return () => {
-            if (videoUrlRef.current) {
-                URL.revokeObjectURL(videoUrlRef.current);
-            }
-        };
-    }, []);
 
     if (isLoaded) {
         return (
@@ -98,7 +68,7 @@ function VideoManager() {
                 )}
             </div>
             <FileUploader />
-            <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={buttonDisable} />
+            <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
 
             <div className="bg-gray-100 p-2 rounded text-xs font-mono max-h-40 overflow-auto">{logs}</div>
 
