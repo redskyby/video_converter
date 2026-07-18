@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { VideoState } from '@/interfaces';
+import { VideoState } from '@/interfaces/VideoState';
 
 export const useVideoStore = create<VideoState>((set) => ({
     file: null,

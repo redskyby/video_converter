@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { VideoDetails } from '@/interfaces';
+import { VideoDetails } from '@/interfaces/VideoDetails';
 
 export const useVideoDetailsStore = create<VideoDetails>((set) => ({
     flipHorizontal: false,
