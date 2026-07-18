@@ -8,8 +8,8 @@ import ConvertButton from '@/features/ConvertButton';
 import FileUploader from '@/features/FileUploader';
 import { useFFmpeg } from '@/hooks/useFFmpeg';
 import { useVideoStore } from '@/store/video';
-import { buildFFmpegArgs } from '@/utils/buildFFmpegArgs';
 import { detectPlatform } from '@/utils/detectPlatform';
+import { handleVideoProcessing } from '@/utils/VideoProcessing';
 
 //TODO : REFACTOR IT
 
@@ -26,57 +26,8 @@ function VideoManager() {
     const file = useVideoStore((s) => s.file);
     const setFile = useVideoStore((s) => s.setFile);
 
-    const handleVideoProcessing = async () => {
-        try {
-            setTranscoding(true);
-            const { file } = useVideoStore.getState();
-
-            if (!file) {
-                return;
-            }
-
-            const ffmpeg = ffmpegRef.current;
-
-            await ffmpeg?.writeFile(file.name, await fetchFile(file));
-
-            const args = buildFFmpegArgs(file.name);
-
-            await ffmpeg?.exec(args);
-
-            const data = await ffmpeg?.readFile('output.mp4');
-
-            // Проверяем, что данные есть и это вид на ArrayBuffer (Uint8Array или похожий)
-            if (videoRef.current && data && ArrayBuffer.isView(data as ArrayBufferView)) {
-                // 🔥 если был старый URL — освобождаем
-                if (videoUrlRef.current) {
-                    URL.revokeObjectURL(videoUrlRef.current);
-                }
-
-                const uint8 = data as Uint8Array;
-
-                // Приводим буфер к ArrayBuffer, чтобы соответствовать типам BlobPart
-                const blob = new Blob([uint8.buffer as ArrayBuffer], {
-                    type: 'video/mp4',
-                });
-
-                // Создаем объект File из blob, чтобы соответствовать типу в сторе
-                const newFile = new File([blob], 'output.mp4', { type: 'video/mp4' });
-
-                const url = URL.createObjectURL(newFile);
-
-                videoUrlRef.current = url; // сохраняем новый URL
-                videoRef.current.src = url;
-
-                // Обновляем глобальный стор — теперь другие компоненты (например, TimeLines)
-                // увидят новый отформатированный файл и смогут обработать его
-                setFile(newFile);
-            }
-        } catch (error) {
-            console.error('Ошибка во время конвертации:', error);
-        } finally {
-            setTranscoding(false);
-            setButtonDisable(true);
-        }
+    const handleConversion = async () => {
+        await handleVideoProcessing({ ffmpegRef, setTranscoding, videoRef, videoUrlRef, setFile, setButtonDisable });
     };
 
     useEffect(() => {
@@ -147,7 +98,7 @@ function VideoManager() {
                 )}
             </div>
             <FileUploader />
-            <ConvertButton onClick={handleVideoProcessing} isPending={transcode} isDisabled={buttonDisable} />
+            <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={buttonDisable} />
 
             <div className="bg-gray-100 p-2 rounded text-xs font-mono max-h-40 overflow-auto">{logs}</div>
 
