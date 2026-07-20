@@ -9,4 +9,5 @@ export interface VideoDetails {
     setPreset: (value: string) => void;
     setCrf: (value: number) => void;
     setRemoveMetadata: (value: boolean) => void;
+    resetFilters: () => void;
 }

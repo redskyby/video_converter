@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { useVideoDetailsStore } from '@/store';
 import { useVideoStore } from '@/store/video';
 
 export const useVideoPreview = () => {
@@ -22,6 +23,8 @@ export const useVideoPreview = () => {
         videoRef.current.src = url;
 
         setFileReady(false);
+
+        useVideoDetailsStore.getState().resetFilters();
 
         return () => {
             if (videoUrlRef.current) {

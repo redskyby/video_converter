@@ -18,4 +18,11 @@ export const useVideoDetailsStore = create<VideoDetails>((set) => ({
     setCrf: (value: number) => set({ crf: value }),
 
     setRemoveMetadata: (value: boolean) => set({ removeMetadata: value }),
+
+    resetFilters: () =>
+        set({
+            flipHorizontal: false,
+            flipVertical: false,
+            removeMetadata: false,
+        }),
 }));
