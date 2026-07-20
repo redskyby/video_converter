@@ -1,6 +1,6 @@
 'use client';
 
-import { Checkbox, CheckboxGroup, Description, Label } from '@heroui/react';
+import { Checkbox, Description, Label } from '@heroui/react';
 import React from 'react';
 
 import { useVideoDetailsStore } from '@/store';
@@ -20,7 +20,7 @@ const CheckBoxes = () => {
     return (
         <>
             {file && (
-                <CheckboxGroup name="video-options">
+                <div>
                     <Label>Настройки видео</Label>
                     <Description>Выберите нужные параметры</Description>
 
@@ -65,7 +65,7 @@ const CheckBoxes = () => {
                             <Description>Удаление методанных из видео</Description>
                         </Checkbox.Content>
                     </Checkbox>
-                </CheckboxGroup>
+                </div>
             )}
         </>
     );
