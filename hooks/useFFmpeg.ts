@@ -25,8 +25,8 @@ export const useFFmpeg = () => {
                 const platform = detectPlatform();
                 const baseURL = getFFmpegBaseURL(platform);
 
-                console.log(`🚀 Загрузка FFmpeg для платформы: ${platform}`);
-                console.log(`📍 Base URL: ${baseURL}`);
+                // console.log(`🚀 Загрузка FFmpeg для платформы: ${platform}`);
+                // console.log(`📍 Base URL: ${baseURL}`);
 
                 await ffmpeg.load({
                     coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),

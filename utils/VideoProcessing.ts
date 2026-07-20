@@ -1,4 +1,5 @@
 import { fetchFile } from '@ffmpeg/util';
+import { v4 as uuidv4 } from 'uuid';
 
 import { handleVideoProcessingProps } from '@/interfaces/HandleVideoProcessingProps';
 import { useVideoStore } from '@/store/video';
@@ -48,8 +49,10 @@ export async function handleVideoProcessing({
                 type: 'video/mp4',
             });
 
+            const fileName = `converted-${uuidv4()}.mp4`;
+
             // Создаем объект File из blob, чтобы соответствовать типу в сторе
-            const newFile = new File([blob], 'output.mp4', { type: 'video/mp4' });
+            const newFile = new File([blob], fileName, { type: 'video/mp4' });
 
             const url = URL.createObjectURL(newFile);
 

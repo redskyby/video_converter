@@ -19,12 +19,12 @@ const TimeLines = () => {
 
         const processVideo = async () => {
             try {
-                console.log('Начинаем извлечение кадров...');
+                // console.log('Начинаем извлечение кадров...');
                 const extractedFrames = await extractFrames(file, 10);
 
                 // Если компонент не размонтирован и эффект не был запущен заново, обновляем состояние
                 if (!isCancelled) {
-                    console.log('Извлеченные кадры:', extractedFrames);
+                    // console.log('Извлеченные кадры:', extractedFrames);
                     frameUrlsRef.current = extractedFrames.map((f) => f.url);
                     setFrames(extractedFrames);
                 }
@@ -43,11 +43,10 @@ const TimeLines = () => {
             frameUrlsRef.current.forEach((url) => URL.revokeObjectURL(url)); // чистим через ref
             frameUrlsRef.current = [];
         };
-    }, [file]); // Эффект зависит от `file`. `frames` добавлено в `eslint-disable` чтобы избежать зацикливания
+    }, [file]);
 
     return (
         <div>
-            {/* Просто для примера выведем несколько кадров */}
             <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', padding: '10px' }}>
                 {frames.map((frame) => (
                     <img

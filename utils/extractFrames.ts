@@ -51,7 +51,7 @@ export const extractFrames = async (file: File, frameCount: number): Promise<Fra
         video.onerror = () => {
             // Также очищаем в случае ошибки
             URL.revokeObjectURL(videoUrl);
-            resolve([]); // или reject, в зависимости от желаемой обработки ошибок
+            resolve([]);
         };
     });
 };
