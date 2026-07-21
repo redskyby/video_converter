@@ -7,7 +7,7 @@ import { getFFmpegBaseURL } from '@/utils/getFFmpegBaseURL';
 
 export const useFFmpeg = () => {
     const ffmpegRef = useRef<FFmpeg | null>(null);
-    const [isLoaded, setIsLoaded] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [logs, setLogs] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
 
@@ -34,18 +34,18 @@ export const useFFmpeg = () => {
                     workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
                 });
 
-                setIsLoaded(false);
+                setIsLoading(false);
                 setError(null);
             } catch (err) {
                 const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка при загрузке FFmpeg';
                 console.error('❌ Ошибка загрузки FFmpeg:', errorMessage);
                 setError(errorMessage);
-                setIsLoaded(false);
+                setIsLoading(false);
             }
         };
 
         load();
     }, []);
 
-    return { ffmpegRef, isLoaded, logs, error };
+    return { ffmpegRef, isLoading, logs, error };
 };

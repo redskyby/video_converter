@@ -17,7 +17,7 @@ function VideoManager() {
     const [transcode, setTranscoding] = useState<boolean>(false);
     const [platform] = useState<string>(() => detectPlatform());
 
-    const { ffmpegRef, isLoaded, logs, error } = useFFmpeg();
+    const { ffmpegRef, isLoading, logs, error } = useFFmpeg();
     const { videoRef, isFileReady } = useVideoPreview();
 
     const file = useVideoStore((s) => s.file);
@@ -27,8 +27,8 @@ function VideoManager() {
         await handleVideoProcessing({ ffmpegRef, setTranscoding, videoRef, videoUrlRef, setFile });
     };
 
-    if (isLoaded || error) {
-        return <FFmpegStatus isLoading={isLoaded} error={error} platform={platform} />;
+    if (isLoading || error) {
+        return <FFmpegStatus isLoading={isLoading} error={error} platform={platform} />;
     }
 
     return (
