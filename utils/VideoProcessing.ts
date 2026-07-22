@@ -2,6 +2,7 @@ import { fetchFile } from '@ffmpeg/util';
 import { v4 as uuidv4 } from 'uuid';
 
 import { handleVideoProcessingProps } from '@/interfaces/HandleVideoProcessingProps';
+import { useVideoDetailsStore } from '@/store';
 import { useVideoStore } from '@/store/video';
 import { buildFFmpegArgs } from '@/utils/buildFFmpegArgs';
 
@@ -14,8 +15,8 @@ export async function handleVideoProcessing({
 }: handleVideoProcessingProps) {
     try {
         setTranscoding(true);
+        const state = useVideoDetailsStore.getState();
         const { file } = useVideoStore.getState();
-
         if (!file) {
             return;
         }
@@ -29,7 +30,14 @@ export async function handleVideoProcessing({
 
         await ffmpeg.writeFile(file.name, await fetchFile(file));
 
-        const args = buildFFmpegArgs(file.name);
+        const args = buildFFmpegArgs({
+            fileName: file.name,
+            flipHorizontal: state.flipHorizontal,
+            flipVertical: state.flipVertical,
+            preset: state.preset,
+            crf: state.crf,
+            removeMetadata: state.removeMetadata,
+        });
 
         await ffmpeg.exec(args);
 

@@ -1,8 +1,13 @@
-import { useVideoDetailsStore } from '@/store';
+import { BuildFFmpegArgsProps } from '@/interfaces/BuildFFmpegArgsProps';
 
-export const buildFFmpegArgs = (fileName: string) => {
-    const { flipHorizontal, flipVertical, preset, crf, removeMetadata } = useVideoDetailsStore.getState();
-
+export const buildFFmpegArgs = ({
+    fileName,
+    flipHorizontal,
+    flipVertical,
+    preset,
+    crf,
+    removeMetadata,
+}: BuildFFmpegArgsProps) => {
     const filters: string[] = [];
 
     if (flipHorizontal) filters.push('hflip');
