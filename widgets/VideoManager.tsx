@@ -8,7 +8,7 @@ import { useFFmpeg } from '@/hooks/useFFmpeg';
 import { useVideoPreview } from '@/hooks/useVideoPreview';
 import { useVideoStore } from '@/store/video';
 import { detectPlatform } from '@/utils/detectPlatform';
-import { handleVideoProcessing } from '@/utils/VideoProcessing';
+import { handleVideoProcessing } from '@/utils/videoProcessing';
 import FFmpegStatus from '@/widgets/FFmpegStatus';
 
 function VideoManager() {
