@@ -6,6 +6,7 @@ import { useVideoStore } from '@/store/video';
 import { Frame } from '@/types';
 import { extractFrames } from '@/utils/extractFrames';
 
+//TODO РАССМОТРЕТЬ ТУТ useMEMO для скриншотов
 const TimeLines = () => {
     const file = useVideoStore((state) => state.file);
     const [frames, setFrames] = useState<Frame[]>([]);

@@ -17,6 +17,7 @@ export async function handleVideoProcessing({
         const state = useVideoDetailsStore.getState();
         const { file } = useVideoStore.getState();
         if (!file) {
+            console.error('Файл не загружен в стор');
             return;
         }
 

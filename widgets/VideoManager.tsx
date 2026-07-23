@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 
 import ConvertButton from '@/features/ConvertButton';
+import DownloadVideoButton from '@/features/DownloadVideoButton';
 import FileUploader from '@/features/FileUploader';
 import { useFFmpeg } from '@/hooks/useFFmpeg';
 import { useVideoPreview } from '@/hooks/useVideoPreview';
@@ -43,7 +44,9 @@ function VideoManager() {
                 )}
             </div>
             <FileUploader />
+
             <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
+            {file && <DownloadVideoButton />}
 
             <div className="bg-gray-100 p-2 rounded text-xs font-mono max-h-40 overflow-auto">{logs}</div>
 

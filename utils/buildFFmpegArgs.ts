@@ -7,7 +7,7 @@ export const buildFFmpegArgs = ({
     preset,
     crf,
     removeMetadata,
-}: BuildFFmpegArgsProps) => {
+}: BuildFFmpegArgsProps): string[] => {
     const filters: string[] = [];
 
     if (flipHorizontal) filters.push('hflip');

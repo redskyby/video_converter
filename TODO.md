@@ -5,7 +5,7 @@
 - [x] Переименовать `isLoaded` → `isLoading` в `hooks/useFFmpeg.ts` (сейчас семантически неверно)
 - [x] Убрать неиспользуемый импорт `fetchFile` из `widgets/VideoManager.tsx`
 - [x] Сделать `buildFFmpegArgs` чистой функцией (сейчас читает стор напрямую)
-- [ ] Вынести генерацию UUID в `utils/generateId.ts` (DRY)
+- [x] Вынести генерацию UUID в `utils/generateId.ts` (DRY)
 - [x] Удалить `interfaces/index.ts` (дублирует `VideoDetails.ts`)
 
 ## 2. UI/UX
