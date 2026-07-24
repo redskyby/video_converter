@@ -8,7 +8,7 @@ import { getFFmpegBaseURL } from '@/utils/getFFmpegBaseURL';
 export const useFFmpeg = () => {
     const ffmpegRef = useRef<FFmpeg | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [logs, setLogs] = useState<string[]>([]);
+    const [progress, setProgress] = useState<number>(0);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -17,8 +17,14 @@ export const useFFmpeg = () => {
                 const ffmpeg = new FFmpeg();
                 ffmpegRef.current = ffmpeg;
 
-                ffmpeg.on('log', ({ message }) => {
-                    setLogs((prev) => [...prev, message]);
+                // ffmpeg.on('log', ({ message }) => {
+                //     setLogs((prev) => [...prev, message]);
+                // });
+
+                ffmpeg.on('progress', ({ progress: ratio }) => {
+                    // progress: число от 0 до 1 (0.5 = 50%)
+                    // time: текущая позиция в микросекундах
+                    setProgress(Math.round(ratio * 100));
                 });
 
                 // Определяем платформу и выбираем соответствующий базовый URL
@@ -47,5 +53,5 @@ export const useFFmpeg = () => {
         load();
     }, []);
 
-    return { ffmpegRef, isLoading, logs, error };
+    return { ffmpegRef, isLoading, progress, error, setProgress };
 };

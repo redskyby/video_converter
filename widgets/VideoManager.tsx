@@ -18,13 +18,14 @@ function VideoManager() {
     const [transcode, setTranscoding] = useState<boolean>(false);
     const [platform] = useState<string>(() => detectPlatform());
 
-    const { ffmpegRef, isLoading, logs, error } = useFFmpeg();
+    const { ffmpegRef, isLoading, progress, error, setProgress } = useFFmpeg();
     const { videoRef, isFileReady } = useVideoPreview();
 
     const file = useVideoStore((s) => s.file);
     const setFile = useVideoStore((s) => s.setFile);
 
     const handleConversion = async () => {
+        setProgress(0);
         await handleVideoProcessing({ ffmpegRef, setTranscoding, videoRef, videoUrlRef, setFile });
     };
 
@@ -43,12 +44,15 @@ function VideoManager() {
                     </p>
                 )}
             </div>
-            <FileUploader />
+            <FileUploader onResetProgress={setProgress} />
 
             <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
-            {file && <DownloadVideoButton />}
+            {file && <DownloadVideoButton onResetProgress={setProgress} />}
 
-            <div className="bg-gray-100 p-2 rounded text-xs font-mono max-h-40 overflow-auto">{logs}</div>
+            <div className="w-full bg-gray-200 rounded flex items-center h-auto pt-1 pb-1 pl-1">
+                <div className="bg-blue-500 h-2 rounded transition-all " style={{ width: `${progress}%` }} />
+                <p className="text-xs text-gray-600 ">{progress}%</p>
+            </div>
 
             {file && <video ref={videoRef} controls className="w-full max-w-2xl"></video>}
         </div>
