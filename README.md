@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Video Converter
 
-## Getting Started
+Браузерный конвертер видео на FFmpeg WASM. Весь транскодинг выполняется на стороне клиента — файлы никуда не отправляются.
 
-First, run the development server:
+## Возможности
+
+- Загрузка видео через файловый инпут
+- Настройки: отзеркаливание (горизонтальное/вертикальное), удаление метаданных
+- Выбор пресета и качества (CRF)
+- Извлечение миниатюр (таймлайн)
+- Скачивание результата
+- Индикация прогресса конвертации
+- Автовыбор версии FFmpeg: многопоточный (`core-mt`) на ПК, однопоточный (`core`) на Android из-за ограничений платформы (SharedArrayBuffer)
+
+## Установка и запуск
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Открой [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Стек
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js** (App Router)
+- **React 19**
+- **FFmpeg WASM** (`@ffmpeg/ffmpeg`, `@ffmpeg/core`, `@ffmpeg/core-mt`)
+- **Zustand** — управление состоянием
+- **HeroUI** — UI-компоненты
+- **Tailwind CSS 4** — стили
+- **TypeScript**
 
-## Learn More
+## Команды
 
-To learn more about Next.js, take a look at the following resources:
+| Команда | Описание |
+|---------|----------|
+| `npm run dev` | Запуск dev-сервера |
+| `npm run build` | Сборка |
+| `npm run start` | Запуск собранного приложения |
+| `npm run lint` | Проверка линтером |
+| `npm run format` | Форматирование кода |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Структура
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/          — страницы и layout
+features/     — фичи: загрузка, конвертация, таймлайн, настройки
+hooks/        — кастомные хуки (useFFmpeg, useVideoPreview)
+store/        — Zustand-сторы
+utils/        — утилиты (buildFFmpegArgs, extractFrames и др.)
+interfaces/   — TypeScript-интерфейсы
+widgets/      — композиционные компоненты (VideoManager, FFmpegStatus)
+```
