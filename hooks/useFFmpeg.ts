@@ -17,10 +17,6 @@ export const useFFmpeg = () => {
                 const ffmpeg = new FFmpeg();
                 ffmpegRef.current = ffmpeg;
 
-                // ffmpeg.on('log', ({ message }) => {
-                //     setLogs((prev) => [...prev, message]);
-                // });
-
                 ffmpeg.on('progress', ({ progress: ratio }) => {
                     // progress: число от 0 до 1 (0.5 = 50%)
                     // time: текущая позиция в микросекундах
@@ -51,6 +47,11 @@ export const useFFmpeg = () => {
         };
 
         load();
+
+        return () => {
+            ffmpegRef.current?.terminate();
+            ffmpegRef.current = null;
+        };
     }, []);
 
     return { ffmpegRef, isLoading, progress, error, setProgress };
