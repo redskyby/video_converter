@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 
 import ConvertButton from '@/features/ConvertButton';
 import DownloadVideoButton from '@/features/DownloadVideoButton';
+import FileSizeInfo from '@/features/FileSizeInfo';
 import FileUploader from '@/features/FileUploader';
 import { useFFmpeg } from '@/hooks/useFFmpeg';
 import { useVideoPreview } from '@/hooks/useVideoPreview';
@@ -24,9 +25,30 @@ function VideoManager() {
     const file = useVideoStore((s) => s.file);
     const setFile = useVideoStore((s) => s.setFile);
 
+    const [inputSize, setInputSize] = useState<number | null>(null);
+    const [outputSize, setOutputSize] = useState<number | null>(null);
+
     const handleConversion = async () => {
+        if (!file) return;
+
+        const originalSize = file.size;
+
         setProgress(0);
-        await handleVideoProcessing({ ffmpegRef, setTranscoding, videoRef, videoUrlRef, setFile });
+        setInputSize(null);
+        setOutputSize(null);
+
+        const convertedFile = await handleVideoProcessing({
+            ffmpegRef,
+            setTranscoding,
+            videoRef,
+            videoUrlRef,
+        });
+
+        if (!convertedFile) return;
+
+        setInputSize(originalSize);
+        setOutputSize(convertedFile.size);
+        setFile(convertedFile);
     };
 
     if (isLoading || error) {
@@ -44,10 +66,22 @@ function VideoManager() {
                     </p>
                 )}
             </div>
-            <FileUploader onResetProgress={setProgress} />
+            <FileUploader
+                onResetProgress={setProgress}
+                onResetInputSize={setInputSize}
+                onResetOutputSize={setOutputSize}
+            />
 
             <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
-            {file && <DownloadVideoButton onResetProgress={setProgress} />}
+            {file && (
+                <DownloadVideoButton
+                    onResetProgress={setProgress}
+                    onResetInputSize={setInputSize}
+                    onResetOutputSize={setOutputSize}
+                />
+            )}
+
+            <FileSizeInfo inputSize={inputSize} outputSize={outputSize} />
 
             <div className="w-full bg-gray-200 rounded flex items-center h-auto pt-1 pb-1 pl-1">
                 <div className="bg-blue-500 h-2 rounded transition-all " style={{ width: `${progress}%` }} />

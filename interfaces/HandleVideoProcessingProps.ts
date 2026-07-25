@@ -5,5 +5,4 @@ export interface handleVideoProcessingProps {
     setTranscoding: React.Dispatch<React.SetStateAction<boolean>>;
     videoRef: React.RefObject<HTMLVideoElement | null>;
     videoUrlRef: React.RefObject<string | null>;
-    setFile: (file: File | null) => void;
 }

@@ -86,33 +86,33 @@
 ## Missing or Weak Parts
 
 1. Управление ресурсами / утечки
-   - Нет teardown/terminate для экземпляра FFmpeg.
-   - Виртуальная FS FFmpeg не очищается после транскодинга.
+    - Нет teardown/terminate для экземпляра FFmpeg.
+    - Виртуальная FS FFmpeg не очищается после транскодинга.
 
 2. UX и контроль выполнения
-   - Отсутствие UI для настройки `preset`, `crf`, timelapse speed, trim start/end.
+    - Отсутствие UI для настройки `preset`, `crf`, timelapse speed, trim start/end.
 
 3. Тестируемость и чистота кода
-   - `handleVideoProcessing` обращается к сторам напрямую.
-   - Нет модульных тестов.
+    - `handleVideoProcessing` обращается к сторам напрямую.
+    - Нет модульных тестов.
 
 ## Readiness for Timelapse
 
 Проект готов к внедрению timelapse:
 
 - Что нужно добавить:
-  1. Параметры в `store/index.ts`: `timelapseFactor` (number).
-  2. Правки в `buildFFmpegArgs`: добавить `setpts=PTS/<factor>` для видео, `atempo` для аудио (с цепочкой при factor > 2).
-  3. UI-элемент для выбора множителя скорости.
+    1. Параметры в `store/index.ts`: `timelapseFactor` (number).
+    2. Правки в `buildFFmpegArgs`: добавить `setpts=PTS/<factor>` для видео, `atempo` для аудио (с цепочкой при factor > 2).
+    3. UI-элемент для выбора множителя скорости.
 
 Оценка готовности: 80% — требуется расширение стора, builder'а и UI.
 
 ## Readiness for Video Trimming
 
 - Что нужно добавить:
-  1. Параметры в сторе: `trimStart`, `trimEnd`.
-  2. UI: контролы для выбора диапазона.
-  3. В `buildFFmpegArgs`: `-ss` и `-to`/`-t`.
+    1. Параметры в сторе: `trimStart`, `trimEnd`.
+    2. UI: контролы для выбора диапазона.
+    3. В `buildFFmpegArgs`: `-ss` и `-to`/`-t`.
 
 Оценка готовности: 85% — механизмы на месте, требуется UI + аргументы.
 

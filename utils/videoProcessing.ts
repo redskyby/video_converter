@@ -10,7 +10,6 @@ export async function handleVideoProcessing({
     setTranscoding,
     videoRef,
     videoUrlRef,
-    setFile,
 }: handleVideoProcessingProps) {
     try {
         setTranscoding(true);
@@ -67,10 +66,11 @@ export async function handleVideoProcessing({
             videoUrlRef.current = url; // сохраняем новый URL
             videoRef.current.src = url;
 
-            setFile(newFile);
+            return newFile;
         }
     } catch (error) {
         console.error('Ошибка во время конвертации:', error);
+        return null;
     } finally {
         setTranscoding(false);
     }

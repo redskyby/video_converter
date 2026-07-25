@@ -5,7 +5,7 @@ import React from 'react';
 import { OnResetProgressProps } from '@/interfaces/OnResetProgressProps';
 import { useVideoStore } from '@/store/video';
 
-const DownloadVideoButton = ({ onResetProgress }: OnResetProgressProps) => {
+const DownloadVideoButton = ({ onResetProgress, onResetInputSize, onResetOutputSize }: OnResetProgressProps) => {
     const file = useVideoStore((s) => s.file);
 
     const handleDownload = () => {
@@ -14,6 +14,8 @@ const DownloadVideoButton = ({ onResetProgress }: OnResetProgressProps) => {
             return;
         }
         onResetProgress(0);
+        onResetInputSize(null);
+        onResetOutputSize(null);
 
         const url = URL.createObjectURL(file);
 
