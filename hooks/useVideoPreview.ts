@@ -6,7 +6,7 @@ import { useVideoStore } from '@/store/video';
 export const useVideoPreview = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const videoUrlRef = useRef<string | null>(null);
-    const [isFileReady, setFileReady] = useState(true);
+    const [isFileReady, setFileReady] = useState<boolean>(true);
 
     const file = useVideoStore((s) => s.file);
 

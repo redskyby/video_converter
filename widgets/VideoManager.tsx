@@ -6,12 +6,16 @@ import ConvertButton from '@/features/ConvertButton';
 import DownloadVideoButton from '@/features/DownloadVideoButton';
 import FileSizeInfo from '@/features/FileSizeInfo';
 import FileUploader from '@/features/FileUploader';
+import SelectOutputFormat from '@/features/SelectOutputFormat';
 import { useFFmpeg } from '@/hooks/useFFmpeg';
 import { useVideoPreview } from '@/hooks/useVideoPreview';
 import { useVideoStore } from '@/store/video';
+import { FormatSelect } from '@/types';
 import { detectPlatform } from '@/utils/detectPlatform';
 import { handleVideoProcessing } from '@/utils/videoProcessing';
 import FFmpegStatus from '@/widgets/FFmpegStatus';
+
+//TODO ДОБАВИТЬ ЛОАДЕР ДЛЯ КНОПКИ , ЧТОБЫ Я НЕ МОГ СКАЧИВАТЬ ФАЙЛ ПРИ КАДИРОВКЕ
 
 function VideoManager() {
     const videoUrlRef = useRef<string | null>(null);
@@ -28,6 +32,8 @@ function VideoManager() {
     const [inputSize, setInputSize] = useState<number | null>(null);
     const [outputSize, setOutputSize] = useState<number | null>(null);
 
+    const [format, setFormat] = useState<FormatSelect>('MP4');
+
     const handleConversion = async () => {
         if (!file) return;
 
@@ -42,6 +48,7 @@ function VideoManager() {
             setTranscoding,
             videoRef,
             videoUrlRef,
+            format,
         });
 
         if (!convertedFile) return;
@@ -71,8 +78,10 @@ function VideoManager() {
                 onResetInputSize={setInputSize}
                 onResetOutputSize={setOutputSize}
             />
+            {file && <SelectOutputFormat currentFormat={format} selectFormat={setFormat} />}
 
             <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
+
             {file && (
                 <DownloadVideoButton
                     onResetProgress={setProgress}
@@ -80,14 +89,11 @@ function VideoManager() {
                     onResetOutputSize={setOutputSize}
                 />
             )}
-
             <FileSizeInfo inputSize={inputSize} outputSize={outputSize} />
-
             <div className="w-full bg-gray-200 rounded flex items-center h-auto pt-1 pb-1 pl-1">
                 <div className="bg-blue-500 h-2 rounded transition-all " style={{ width: `${progress}%` }} />
                 <p className="text-xs text-gray-600 ">{progress}%</p>
             </div>
-
             {file && <video ref={videoRef} controls className="w-full max-w-2xl"></video>}
         </div>
     );

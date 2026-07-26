@@ -10,6 +10,7 @@ export async function handleVideoProcessing({
     setTranscoding,
     videoRef,
     videoUrlRef,
+    format,
 }: handleVideoProcessingProps) {
     try {
         setTranscoding(true);
@@ -36,11 +37,14 @@ export async function handleVideoProcessing({
             preset: state.preset,
             crf: state.crf,
             removeMetadata: state.removeMetadata,
+            format: format,
         });
 
         await ffmpeg.exec(args);
 
-        const data = await ffmpeg?.readFile('output.mp4');
+        const extension = format.toLowerCase();
+
+        const data = await ffmpeg.readFile(`output.${extension}`);
 
         // Проверяем, что данные есть и это вид на ArrayBuffer (Uint8Array или похожий)
         if (videoRef.current && data && ArrayBuffer.isView(data as ArrayBufferView)) {
@@ -52,14 +56,18 @@ export async function handleVideoProcessing({
             const uint8 = data as Uint8Array;
 
             // Приводим буфер к ArrayBuffer, чтобы соответствовать типам BlobPart
+            const mimeType = format === 'MP4' ? 'video/mp4' : 'video/webm';
+
             const blob = new Blob([uint8.buffer as ArrayBuffer], {
-                type: 'video/mp4',
+                type: mimeType,
             });
 
-            const fileName = `converted-${crypto.randomUUID()}.mp4`;
+            const fileName = `converted-${crypto.randomUUID()}.${extension}`;
 
             // Создаем объект File из blob, чтобы соответствовать типу в сторе
-            const newFile = new File([blob], fileName, { type: 'video/mp4' });
+            const newFile = new File([blob], fileName, {
+                type: mimeType,
+            });
 
             const url = URL.createObjectURL(newFile);
 
@@ -69,8 +77,14 @@ export async function handleVideoProcessing({
             return newFile;
         }
     } catch (error) {
-        console.error('Ошибка во время конвертации:', error);
-        return null;
+        console.error(error);
+
+        if (error instanceof Error) {
+            console.error(error.message);
+            console.error(error.stack);
+        }
+
+        throw error;
     } finally {
         setTranscoding(false);
     }

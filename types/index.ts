@@ -4,3 +4,5 @@ export type Frame = {
 };
 
 export type Platform = 'mobile' | 'desktop';
+
+export type FormatSelect = 'MP4' | 'WebM';

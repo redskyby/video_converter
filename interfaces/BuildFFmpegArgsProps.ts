@@ -1,3 +1,5 @@
+import { FormatSelect } from '@/types';
+
 export interface BuildFFmpegArgsProps {
     fileName: string;
     flipHorizontal: boolean;
@@ -5,4 +7,5 @@ export interface BuildFFmpegArgsProps {
     preset: string;
     crf: number;
     removeMetadata: boolean;
+    format: FormatSelect;
 }
