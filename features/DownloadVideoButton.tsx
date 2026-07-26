@@ -2,10 +2,10 @@ import { ArrowDownToLine } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 import React from 'react';
 
-import { OnResetProgressProps } from '@/interfaces/OnResetProgressProps';
+import { OnResetProps } from '@/interfaces/OnResetProps';
 import { useVideoStore } from '@/store/video';
 
-const DownloadVideoButton = ({ onResetProgress, onResetInputSize, onResetOutputSize }: OnResetProgressProps) => {
+const DownloadVideoButton = ({ onReset }: OnResetProps) => {
     const file = useVideoStore((s) => s.file);
 
     const handleDownload = () => {
@@ -13,9 +13,7 @@ const DownloadVideoButton = ({ onResetProgress, onResetInputSize, onResetOutputS
             console.log('Ошибка при скачивании');
             return;
         }
-        onResetProgress(0);
-        onResetInputSize(null);
-        onResetOutputSize(null);
+        onReset();
 
         const url = URL.createObjectURL(file);
 

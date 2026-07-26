@@ -3,16 +3,14 @@
 import { Input } from '@heroui/react';
 import React from 'react';
 
-import { OnResetProgressProps } from '@/interfaces/OnResetProgressProps';
+import { OnResetProps } from '@/interfaces/OnResetProps';
 import { useVideoStore } from '@/store/video';
 
-const FileUploader = ({ onResetProgress, onResetInputSize, onResetOutputSize }: OnResetProgressProps) => {
+const FileUploader = ({ onReset }: OnResetProps) => {
     const setFile = useVideoStore((s) => s.setFile);
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
-            onResetProgress(0);
-            onResetInputSize(null);
-            onResetOutputSize(null);
+            onReset();
             setFile(e.target.files[0]);
         }
     };

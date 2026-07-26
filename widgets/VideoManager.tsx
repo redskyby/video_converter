@@ -34,14 +34,18 @@ function VideoManager() {
 
     const [format, setFormat] = useState<FormatSelect>('MP4');
 
+    const handleReset = () => {
+        setProgress(0);
+        setInputSize(null);
+        setOutputSize(null);
+    };
+
     const handleConversion = async () => {
         if (!file) return;
 
         const originalSize = file.size;
 
-        setProgress(0);
-        setInputSize(null);
-        setOutputSize(null);
+        handleReset();
 
         const convertedFile = await handleVideoProcessing({
             ffmpegRef,
@@ -73,23 +77,16 @@ function VideoManager() {
                     </p>
                 )}
             </div>
-            <FileUploader
-                onResetProgress={setProgress}
-                onResetInputSize={setInputSize}
-                onResetOutputSize={setOutputSize}
-            />
+            <FileUploader onReset={handleReset} />
+
             {file && <SelectOutputFormat currentFormat={format} selectFormat={setFormat} />}
 
             <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
 
-            {file && (
-                <DownloadVideoButton
-                    onResetProgress={setProgress}
-                    onResetInputSize={setInputSize}
-                    onResetOutputSize={setOutputSize}
-                />
-            )}
-            <FileSizeInfo inputSize={inputSize} outputSize={outputSize} />
+            {file && <DownloadVideoButton onReset={handleReset} />}
+
+            {file && <FileSizeInfo inputSize={inputSize} outputSize={outputSize} />}
+
             <div className="w-full bg-gray-200 rounded flex items-center h-auto pt-1 pb-1 pl-1">
                 <div className="bg-blue-500 h-2 rounded transition-all " style={{ width: `${progress}%` }} />
                 <p className="text-xs text-gray-600 ">{progress}%</p>
