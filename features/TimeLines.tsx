@@ -6,7 +6,6 @@ import { useVideoStore } from '@/store/video';
 import { Frame } from '@/types';
 import { extractFrames } from '@/utils/extractFrames';
 
-//TODO РАСМОТРЕТЬ <IMAGE/> ВМЕСТО img тега
 const TimeLines = () => {
     const file = useVideoStore((state) => state.file);
     const [frames, setFrames] = useState<Frame[]>([]);

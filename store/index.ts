@@ -6,7 +6,7 @@ export const useVideoDetailsStore = create<VideoDetails>((set) => ({
     flipHorizontal: false,
     flipVertical: false,
     preset: 'ultrafast',
-    crf: 28,
+    crf: 23,
     removeMetadata: false,
 
     setFlipHorizontal: (value: boolean) => set({ flipHorizontal: value }),

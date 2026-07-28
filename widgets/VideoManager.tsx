@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 
+import ClearFileButton from '@/features/ClearFileButton';
 import ConvertButton from '@/features/ConvertButton';
 import DownloadVideoButton from '@/features/DownloadVideoButton';
 import FileSizeInfo from '@/features/FileSizeInfo';
@@ -14,8 +15,6 @@ import { FormatSelect } from '@/types';
 import { detectPlatform } from '@/utils/detectPlatform';
 import { handleVideoProcessing } from '@/utils/videoProcessing';
 import FFmpegStatus from '@/widgets/FFmpegStatus';
-
-//TODO ДОБАВИТЬ ЛОАДЕР ДЛЯ КНОПКИ , ЧТОБЫ Я НЕ МОГ СКАЧИВАТЬ ФАЙЛ ПРИ КАДИРОВКЕ
 
 function VideoManager() {
     const videoUrlRef = useRef<string | null>(null);
@@ -77,9 +76,13 @@ function VideoManager() {
                     </p>
                 )}
             </div>
+
             <FileUploader onReset={handleReset} />
 
-            {file && <SelectOutputFormat currentFormat={format} selectFormat={setFormat} />}
+            <div className="flex items-center justify-between gap-4">
+                {file && <SelectOutputFormat currentFormat={format} selectFormat={setFormat} />}
+                {file && <ClearFileButton onReset={handleReset} />}
+            </div>
 
             <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
 
