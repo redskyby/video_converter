@@ -12,8 +12,12 @@ const TimeLines = () => {
     const frameUrlsRef = useRef<string[]>([]);
 
     useEffect(() => {
-        // Если файла нет, ничего не делаем
-        if (!file) return;
+        if (!file) {
+            frameUrlsRef.current.forEach(URL.revokeObjectURL);
+            frameUrlsRef.current = [];
+            //setFrames([]);
+            return;
+        }
 
         let isCancelled = false; // Флаг для предотвращения обновления состояния после размонтирования
 
@@ -38,7 +42,6 @@ const TimeLines = () => {
         // 👇 Вот функция очистки
         return () => {
             isCancelled = true; // Помечаем, что работа эффекта прервана
-            console.log('Очистка... Удаление', frames.length, 'кадров.');
             // Освобождаем память от всех URL-адресов кадров
             frameUrlsRef.current.forEach((url) => URL.revokeObjectURL(url)); // чистим через ref
             frameUrlsRef.current = [];

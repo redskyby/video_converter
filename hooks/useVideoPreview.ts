@@ -11,7 +11,10 @@ export const useVideoPreview = () => {
     const file = useVideoStore((s) => s.file);
 
     useEffect(() => {
-        if (!file || !videoRef.current) return;
+        if (!file || !videoRef.current) {
+            setFileReady(true);
+            return;
+        }
 
         // 🔥 если был старый URL — освобождаем
         if (videoUrlRef.current) {

@@ -84,9 +84,11 @@ function VideoManager() {
                 {file && <ClearFileButton onReset={handleReset} />}
             </div>
 
-            <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
+            <div className="flex items-center justify-between gap-4">
+                <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
 
-            {file && <DownloadVideoButton onReset={handleReset} />}
+                {file && <DownloadVideoButton onReset={handleReset} isDisabled={transcode} />}
+            </div>
 
             {file && <FileSizeInfo inputSize={inputSize} outputSize={outputSize} />}
 
