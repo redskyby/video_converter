@@ -15,21 +15,27 @@ const TimeLines = () => {
         if (!file) {
             frameUrlsRef.current.forEach(URL.revokeObjectURL);
             frameUrlsRef.current = [];
-            //setFrames([]);
+
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setFrames([]);
+
             return;
         }
 
-        let isCancelled = false; // Флаг для предотвращения обновления состояния после размонтирования
+        const controller = new AbortController();
 
         const processVideo = async () => {
             try {
                 // console.log('Начинаем извлечение кадров...');
-                const extractedFrames = await extractFrames(file, 10);
+                const extractedFrames = await extractFrames({
+                    file: file,
+                    frameCount: 10,
+                    signal: controller.signal,
+                });
 
-                // Если компонент не размонтирован и эффект не был запущен заново, обновляем состояние
-                if (!isCancelled) {
-                    // console.log('Извлеченные кадры:', extractedFrames);
+                if (!controller.signal.aborted) {
                     frameUrlsRef.current = extractedFrames.map((f) => f.url);
+
                     setFrames(extractedFrames);
                 }
             } catch (error) {
@@ -39,10 +45,11 @@ const TimeLines = () => {
 
         processVideo();
 
-        // 👇 Вот функция очистки
         return () => {
-            isCancelled = true; // Помечаем, что работа эффекта прервана
+            // isCancelled = true; // Помечаем, что работа эффекта прервана
             // Освобождаем память от всех URL-адресов кадров
+            controller.abort();
+
             frameUrlsRef.current.forEach((url) => URL.revokeObjectURL(url)); // чистим через ref
             frameUrlsRef.current = [];
         };

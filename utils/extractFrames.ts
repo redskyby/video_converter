@@ -1,6 +1,7 @@
+import { ExtractFramesProps } from '@/interfaces/ExtractFramesProps';
 import { Frame } from '@/types';
 
-export const extractFrames = async (file: File, frameCount: number): Promise<Frame[]> => {
+export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesProps): Promise<Frame[]> => {
     return new Promise((resolve) => {
         const video = document.createElement('video');
         const canvas = document.createElement('canvas');
@@ -14,6 +15,22 @@ export const extractFrames = async (file: File, frameCount: number): Promise<Fra
         video.muted = true;
         video.playsInline = true;
 
+        const cleanup = () => {
+            URL.revokeObjectURL(videoUrl);
+
+            frames.forEach((frame) => {
+                URL.revokeObjectURL(frame.url);
+            });
+
+            video.src = '';
+            video.remove();
+        };
+
+        signal?.addEventListener('abort', () => {
+            cleanup();
+            resolve([]);
+        });
+
         video.onloadedmetadata = async () => {
             const duration = video.duration;
 
@@ -21,19 +38,31 @@ export const extractFrames = async (file: File, frameCount: number): Promise<Fra
             canvas.height = video.videoHeight;
 
             for (let i = 0; i < frameCount; i++) {
+                if (signal?.aborted) {
+                    cleanup();
+                    resolve([]);
+                    return;
+                }
+
                 const time = (duration / frameCount) * i;
                 video.currentTime = time;
 
-                await new Promise((res) => {
+                await new Promise<void>((res) => {
                     video.onseeked = () => {
+                        if (signal?.aborted) {
+                            res();
+                            return;
+                        }
+
                         ctx?.drawImage(video, 0, 0);
+
                         canvas.toBlob(
                             (blob) => {
-                                if (blob) {
+                                if (blob && !signal?.aborted) {
                                     const url = URL.createObjectURL(blob);
                                     frames.push({ url, time });
                                 }
-                                res(null);
+                                res();
                             },
                             'image/jpeg',
                             0.6,
@@ -49,8 +78,7 @@ export const extractFrames = async (file: File, frameCount: number): Promise<Fra
         };
 
         video.onerror = () => {
-            // Также очищаем в случае ошибки
-            URL.revokeObjectURL(videoUrl);
+            cleanup();
             resolve([]);
         };
     });
