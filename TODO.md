@@ -8,7 +8,7 @@
 - [x] Вынести генерацию UUID в `utils/generateId.ts` (DRY)
 - [x] Удалить `interfaces/index.ts` (дублирует `VideoDetails.ts`)
 - [ ] Выставить CRF 23 для лучшего качества (или раздельный CRF для MP4/WebM)
-- [ ] Заменить `<img>` на `<Image/>` из next/image в TimeLines
+- [x] Заменить `<img>` на `<Image/>` из next/image в TimeLines
 
 ## 2. UI/UX
 

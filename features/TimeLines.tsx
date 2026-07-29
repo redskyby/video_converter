@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useVideoStore } from '@/store/video';
@@ -26,7 +27,6 @@ const TimeLines = () => {
 
         const processVideo = async () => {
             try {
-                // console.log('Начинаем извлечение кадров...');
                 const extractedFrames = await extractFrames({
                     file: file,
                     frameCount: 10,
@@ -46,8 +46,6 @@ const TimeLines = () => {
         processVideo();
 
         return () => {
-            // isCancelled = true; // Помечаем, что работа эффекта прервана
-            // Освобождаем память от всех URL-адресов кадров
             controller.abort();
 
             frameUrlsRef.current.forEach((url) => URL.revokeObjectURL(url)); // чистим через ref
@@ -58,12 +56,15 @@ const TimeLines = () => {
     return (
         <div>
             <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', padding: '10px' }}>
-                {frames.map((frame) => (
-                    <img
+                {frames.map((frame, index) => (
+                    <Image
                         key={frame.time}
                         src={frame.url}
                         alt={`Кадр на ${frame.time.toFixed(2)}с`}
-                        style={{ height: '100px', border: '1px solid #ccc' }}
+                        width={160}
+                        height={100}
+                        priority={index < 3}
+                        style={{ objectFit: 'contain', border: '1px solid #ccc' }}
                     />
                 ))}
             </div>
