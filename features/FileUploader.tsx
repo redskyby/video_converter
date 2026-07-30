@@ -3,11 +3,11 @@
 import { Input } from '@heroui/react';
 import React from 'react';
 
-import { OnResetProps } from '@/interfaces/OnResetProps';
-import { useVideoStore } from '@/store/video';
+import { videoStore } from '@/entities/video/videoStore';
+import { OnResetProps } from '@/shared/interfaces/OnResetProps';
 
 const FileUploader = ({ onReset }: OnResetProps) => {
-    const setFile = useVideoStore((s) => s.setFile);
+    const setFile = videoStore((s) => s.setFile);
     const handleDelete = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
             onReset();

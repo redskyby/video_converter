@@ -2,11 +2,11 @@ import { TrashBin } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 import React from 'react';
 
-import { OnResetProps } from '@/interfaces/OnResetProps';
-import { useVideoStore } from '@/store/video';
+import { videoStore } from '@/entities/video/videoStore';
+import { OnResetProps } from '@/shared/interfaces/OnResetProps';
 
 const ClearFileButton = ({ onReset }: OnResetProps) => {
-    const setFile = useVideoStore((s) => s.setFile);
+    const setFile = videoStore((s) => s.setFile);
     const handleFileChange = () => {
         onReset();
         setFile(null);

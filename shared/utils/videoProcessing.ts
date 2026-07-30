@@ -1,9 +1,9 @@
 import { fetchFile } from '@ffmpeg/util';
 
-import { handleVideoProcessingProps } from '@/interfaces/HandleVideoProcessingProps';
-import { useVideoDetailsStore } from '@/store';
-import { useVideoStore } from '@/store/video';
-import { buildFFmpegArgs } from '@/utils/buildFFmpegArgs';
+import { detailsStore } from '@/entities/video/detailsStore';
+import { videoStore } from '@/entities/video/videoStore';
+import { handleVideoProcessingProps } from '@/shared/interfaces/HandleVideoProcessingProps';
+import { buildFFmpegArgs } from '@/shared/utils/buildFFmpegArgs';
 
 export async function handleVideoProcessing({
     ffmpegRef,
@@ -14,8 +14,8 @@ export async function handleVideoProcessing({
 }: handleVideoProcessingProps) {
     try {
         setTranscoding(true);
-        const state = useVideoDetailsStore.getState();
-        const { file } = useVideoStore.getState();
+        const state = detailsStore.getState();
+        const { file } = videoStore.getState();
         if (!file) {
             console.error('Файл не загружен в стор');
             return;

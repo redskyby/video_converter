@@ -1,4 +1,4 @@
-import { BuildFFmpegArgsProps } from '@/interfaces/BuildFFmpegArgsProps';
+import { BuildFFmpegArgsProps } from '@/shared/interfaces/BuildFFmpegArgsProps';
 
 export const buildFFmpegArgs = ({
     fileName,

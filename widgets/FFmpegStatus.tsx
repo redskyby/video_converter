@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { FFmpegStatusProps } from '@/interfaces/FFmpegStatusProps';
-import Loader from '@/shared/Loader';
+import { FFmpegStatusProps } from '@/shared/interfaces/FFmpegStatusProps';
+import Loader from '@/shared/ui/Loader';
 
 const FFmpegStatus = ({ isLoading, error, platform }: FFmpegStatusProps) => {
     if (isLoading) {

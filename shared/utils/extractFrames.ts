@@ -1,5 +1,5 @@
-import { ExtractFramesProps } from '@/interfaces/ExtractFramesProps';
-import { Frame } from '@/types';
+import { ExtractFramesProps } from '@/shared/interfaces/ExtractFramesProps';
+import { Frame } from '@/shared/types/Frame';
 
 export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesProps): Promise<Frame[]> => {
     return new Promise((resolve) => {

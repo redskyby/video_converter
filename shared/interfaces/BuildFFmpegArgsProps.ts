@@ -1,4 +1,4 @@
-import { FormatSelect } from '@/types';
+import { FormatSelect } from '@/shared/types/FormatSelect';
 
 export interface BuildFFmpegArgsProps {
     fileName: string;

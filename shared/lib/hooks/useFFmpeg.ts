@@ -2,8 +2,8 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { toBlobURL } from '@ffmpeg/util';
 import { useEffect, useRef, useState } from 'react';
 
-import { detectPlatform } from '@/utils/detectPlatform';
-import { getFFmpegBaseURL } from '@/utils/getFFmpegBaseURL';
+import { detectPlatform } from '@/shared/utils/detectPlatform';
+import { getFFmpegBaseURL } from '@/shared/utils/getFFmpegBaseURL';
 
 export const useFFmpeg = () => {
     const ffmpegRef = useRef<FFmpeg | null>(null);

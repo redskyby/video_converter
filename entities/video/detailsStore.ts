@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-import { VideoDetails } from '@/interfaces/VideoDetails';
+import { VideoDetails } from '@/shared/interfaces/VideoDetails';
 
-export const useVideoDetailsStore = create<VideoDetails>((set) => ({
+export const detailsStore = create<VideoDetails>((set) => ({
     flipHorizontal: false,
     flipVertical: false,
     preset: 'ultrafast',

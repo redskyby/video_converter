@@ -7,7 +7,7 @@
 ## Architecture
 
 - Фреймворк: Next.js (app router), React 19, TypeScript.
-- State management: zustand (два стора: `useVideoDetailsStore` в `store/index.ts` и `useVideoStore` в `store/video.ts`).
+- State management: zustand (два стора: `useVideoDetailsStore` в `store/detailsStore.ts` и `useVideoStore` в `store/videoStore.ts`).
 - UI: компоненты из `@heroui/react` + Tailwind CSS.
 - FFmpeg: используется wasm‑сборка (`@ffmpeg/ffmpeg`, `@ffmpeg/core-mt`, `@ffmpeg/util`) — инициализация в хуке `useFFmpeg` и дальнейшая работа в `utils/videoProcessing.ts`.
 - Структура файлов (ключевые модули):
@@ -101,7 +101,7 @@
 Проект готов к внедрению timelapse:
 
 - Что нужно добавить:
-    1. Параметры в `store/index.ts`: `timelapseFactor` (number).
+    1. Параметры в `store/detailsStore.ts`: `timelapseFactor` (number).
     2. Правки в `buildFFmpegArgs`: добавить `setpts=PTS/<factor>` для видео, `atempo` для аудио (с цепочкой при factor > 2).
     3. UI-элемент для выбора множителя скорости.
 

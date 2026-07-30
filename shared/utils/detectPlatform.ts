@@ -1,4 +1,4 @@
-import { Platform } from '@/types';
+import { Platform } from '@/shared/types/Platform';
 
 export const detectPlatform = (): Platform => {
     // Проверяем только на клиенте

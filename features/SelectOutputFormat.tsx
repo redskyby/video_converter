@@ -1,7 +1,7 @@
 import { Label, ListBox, Select } from '@heroui/react';
 import React from 'react';
 
-import { FormatSelect } from '@/types';
+import { FormatSelect } from '@/shared/types/FormatSelect';
 
 const SelectOutputFormat = ({
     currentFormat,

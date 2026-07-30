@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useVideoDetailsStore } from '@/store';
-import { useVideoStore } from '@/store/video';
+import { detailsStore } from '@/entities/video/detailsStore';
+import { videoStore } from '@/entities/video/videoStore';
 
 export const useVideoPreview = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const videoUrlRef = useRef<string | null>(null);
     const [isFileReady, setFileReady] = useState<boolean>(true);
 
-    const file = useVideoStore((s) => s.file);
+    const file = videoStore((s) => s.file);
 
     useEffect(() => {
         if (!file || !videoRef.current) {
@@ -27,7 +27,7 @@ export const useVideoPreview = () => {
 
         setFileReady(false);
 
-        useVideoDetailsStore.getState().resetFilters();
+        detailsStore.getState().resetFilters();
 
         return () => {
             if (videoUrlRef.current) {

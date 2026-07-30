@@ -3,20 +3,20 @@
 import { Checkbox, Description, Label } from '@heroui/react';
 import React from 'react';
 
-import { CheckBoxesProps } from '@/interfaces/CheckBoxesProps';
-import { useVideoDetailsStore } from '@/store';
-import { useVideoStore } from '@/store/video';
+import { detailsStore } from '@/entities/video/detailsStore';
+import { videoStore } from '@/entities/video/videoStore';
+import { CheckBoxesProps } from '@/shared/interfaces/CheckBoxesProps';
 
 const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
-    const flipHorizontal = useVideoDetailsStore((s) => s.flipHorizontal);
-    const flipVertical = useVideoDetailsStore((s) => s.flipVertical);
-    const removeMetadata = useVideoDetailsStore((s) => s.removeMetadata);
+    const flipHorizontal = detailsStore((s) => s.flipHorizontal);
+    const flipVertical = detailsStore((s) => s.flipVertical);
+    const removeMetadata = detailsStore((s) => s.removeMetadata);
 
-    const setFlipHorizontal = useVideoDetailsStore((s) => s.setFlipHorizontal);
-    const setFlipVertical = useVideoDetailsStore((s) => s.setFlipVertical);
-    const setRemoveMetadata = useVideoDetailsStore((s) => s.setRemoveMetadata);
+    const setFlipHorizontal = detailsStore((s) => s.setFlipHorizontal);
+    const setFlipVertical = detailsStore((s) => s.setFlipVertical);
+    const setRemoveMetadata = detailsStore((s) => s.setRemoveMetadata);
 
-    const file = useVideoStore((s) => s.file);
+    const file = videoStore((s) => s.file);
 
     return (
         <>

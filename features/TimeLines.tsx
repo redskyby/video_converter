@@ -3,13 +3,13 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 
-import Loader from '@/shared/Loader';
-import { useVideoStore } from '@/store/video';
-import { Frame } from '@/types';
-import { extractFrames } from '@/utils/extractFrames';
+import { videoStore } from '@/entities/video/videoStore';
+import { Frame } from '@/shared/types/Frame';
+import Loader from '@/shared/ui/Loader';
+import { extractFrames } from '@/shared/utils/extractFrames';
 
 const TimeLines = () => {
-    const file = useVideoStore((state) => state.file);
+    const file = videoStore((state) => state.file);
     const [frames, setFrames] = useState<Frame[]>([]);
     const frameUrlsRef = useRef<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);

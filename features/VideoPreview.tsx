@@ -2,11 +2,11 @@
 
 import React, { useEffect, useRef } from 'react';
 
-import { useVideoStore } from '@/store/video';
+import { videoStore } from '@/entities/video/videoStore';
 
 const VideoPreview = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
-    const file = useVideoStore((s) => s.file);
+    const file = videoStore((s) => s.file);
 
     useEffect(() => {
         if (!file || !videoRef.current) return;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FileSizeInfoProps } from '@/interfaces/FileSizeInfoProps';
+import { FileSizeInfoProps } from '@/shared/interfaces/FileSizeInfoProps';
 
 const FileSizeInfo = ({ inputSize, outputSize }: FileSizeInfoProps) => {
     return (

@@ -2,11 +2,11 @@ import { ArrowDownToLine } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 import React from 'react';
 
-import { DownloadVideoButtonProps } from '@/interfaces/DownloadVideoButtonProps';
-import { useVideoStore } from '@/store/video';
+import { videoStore } from '@/entities/video/videoStore';
+import { DownloadVideoButtonProps } from '@/shared/interfaces/DownloadVideoButtonProps';
 
 const DownloadVideoButton = ({ onReset, isDisabled = false }: DownloadVideoButtonProps) => {
-    const file = useVideoStore((s) => s.file);
+    const file = videoStore((s) => s.file);
 
     const handleDownload = () => {
         if (!file) {

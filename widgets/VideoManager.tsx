@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 
+import { videoStore } from '@/entities/video/videoStore';
 import CheckBoxes from '@/features/CheckBoxes';
 import ClearFileButton from '@/features/ClearFileButton';
 import ConvertButton from '@/features/ConvertButton';
@@ -9,12 +10,11 @@ import DownloadVideoButton from '@/features/DownloadVideoButton';
 import FileSizeInfo from '@/features/FileSizeInfo';
 import FileUploader from '@/features/FileUploader';
 import SelectOutputFormat from '@/features/SelectOutputFormat';
-import { useFFmpeg } from '@/hooks/useFFmpeg';
-import { useVideoPreview } from '@/hooks/useVideoPreview';
-import { useVideoStore } from '@/store/video';
-import { FormatSelect } from '@/types';
-import { detectPlatform } from '@/utils/detectPlatform';
-import { handleVideoProcessing } from '@/utils/videoProcessing';
+import { useFFmpeg } from '@/shared/lib/hooks/useFFmpeg';
+import { useVideoPreview } from '@/shared/lib/hooks/useVideoPreview';
+import { FormatSelect } from '@/shared/types/FormatSelect';
+import { detectPlatform } from '@/shared/utils/detectPlatform';
+import { handleVideoProcessing } from '@/shared/utils/videoProcessing';
 import FFmpegStatus from '@/widgets/FFmpegStatus';
 
 function VideoManager() {
@@ -26,8 +26,8 @@ function VideoManager() {
     const { ffmpegRef, isLoading, progress, error, setProgress } = useFFmpeg();
     const { videoRef, isFileReady } = useVideoPreview();
 
-    const file = useVideoStore((s) => s.file);
-    const setFile = useVideoStore((s) => s.setFile);
+    const file = videoStore((s) => s.file);
+    const setFile = videoStore((s) => s.setFile);
 
     const [inputSize, setInputSize] = useState<number | null>(null);
     const [outputSize, setOutputSize] = useState<number | null>(null);

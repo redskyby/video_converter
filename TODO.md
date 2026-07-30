@@ -6,7 +6,7 @@
 - [x] Убрать неиспользуемый импорт `fetchFile` из `widgets/VideoManager.tsx`
 - [x] Сделать `buildFFmpegArgs` чистой функцией (сейчас читает стор напрямую)
 - [x] Вынести генерацию UUID в `utils/generateId.ts` (DRY)
-- [x] Удалить `interfaces/index.ts` (дублирует `VideoDetails.ts`)
+- [x] Удалить `interfaces/detailsStore.ts` (дублирует `VideoDetails.ts`)
 - [ ] Выставить CRF 23 для лучшего качества (или раздельный CRF для MP4/WebM)
 - [x] Заменить `<img>` на `<Image/>` из next/image в TimeLines
 

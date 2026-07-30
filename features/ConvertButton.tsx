@@ -2,7 +2,7 @@ import { Gear } from '@gravity-ui/icons';
 import { Button, Spinner } from '@heroui/react';
 import React from 'react';
 
-import { ConvertButtonProps } from '@/interfaces/ConvertButtonProps';
+import { ConvertButtonProps } from '@/shared/interfaces/ConvertButtonProps';
 
 function ConvertButton({ onClick, isPending, isDisabled = false }: ConvertButtonProps) {
     return (

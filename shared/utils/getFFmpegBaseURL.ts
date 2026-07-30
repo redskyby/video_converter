@@ -1,4 +1,4 @@
-import { Platform } from '@/types';
+import { Platform } from '@/shared/types/Platform';
 
 /**
  * Получает базовый URL для FFmpeg в зависимости от платформы

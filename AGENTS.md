@@ -16,8 +16,8 @@
 - `utils/buildFFmpegArgs.ts` — **чистая функция**, принимает конфиг (flip, preset, crf, removeMetadata) — больше не читает стор напрямую.
 - `utils/videoProcessing.ts` — вынесенная логика транскодинга: `fetchFile` → `ffmpeg.writeFile` → `ffmpeg.exec` → `ffmpeg.readFile` → Blob → `setFile`; работает через `useVideoDetailsStore.getState()`.
 - `utils/extractFrames.ts` + `features/TimeLines.tsx` — извлечение миниатюр и аккуратная очистка URL (revokeObjectURL).
-- `store/index.ts` — `useVideoDetailsStore` (опции: flip, preset, crf, removeMetadata) + `resetFilters`.
-- `store/video.ts` — `useVideoStore` (текущий File).
+- `store/detailsStore.ts` — `useVideoDetailsStore` (опции: flip, preset, crf, removeMetadata) + `resetFilters`.
+- `store/videoStore.ts` — `useVideoStore` (текущий File).
 - `interfaces/*.ts` — типизированные пропсы для всех компонентов и утилит.
 
 3. Проектные конвенции и паттерны, которые агент должен знать
@@ -57,7 +57,7 @@
 
 8. Примеры задач, которые агент может сразу выполнить
 
-- Добавить timelapse/trim: расширить `store/index.ts` и `interfaces/`, обновить `buildFFmpegArgs`, добавить UI-контролы.
+- Добавить timelapse/trim: расширить `store/detailsStore.ts` и `interfaces/`, обновить `buildFFmpegArgs`, добавить UI-контролы.
 - Добавить явный `ffmpeg` teardown/terminate при размонтировании хука (если API доступно).
 - Добавить очистку виртуальной FS FFmpeg (`ffmpeg.deleteFile`) после завершения транскодинга.
 
