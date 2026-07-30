@@ -21,54 +21,61 @@ const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
     return (
         <>
             {file && (
-                <div>
-                    <Label>Настройки видео</Label>
-                    <Description>Выберите нужные параметры</Description>
-
-                    <Checkbox
-                        isDisabled={isDisabled}
-                        value="flipHorizontal"
-                        isSelected={flipHorizontal}
-                        onChange={(isSelected) => setFlipHorizontal(isSelected)}
-                    >
-                        <Checkbox.Control>
-                            <Checkbox.Indicator />
-                        </Checkbox.Control>
-                        <Checkbox.Content>
-                            <Label>Отзеркалить по горизонтали</Label>
+                <div className="border-2 p-4 rounded-lg space-y-3">
+                    <div>
+                        <p className="text-sm font-medium">Настройки видео</p>
+                        <p className="text-xs text-gray-500">Выберите нужные параметры</p>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                        <Checkbox
+                            isDisabled={isDisabled}
+                            value="flipHorizontal"
+                            isSelected={flipHorizontal}
+                            onChange={(isSelected) => setFlipHorizontal(isSelected)}
+                        >
+                            <Checkbox.Content>
+                                <Checkbox.Control>
+                                    <Checkbox.Indicator />
+                                </Checkbox.Control>
+                                <Label>Отзеркалить по горизонтали</Label>
+                            </Checkbox.Content>
                             <Description>Переворачивает видео слева направо</Description>
-                        </Checkbox.Content>
-                    </Checkbox>
+                        </Checkbox>
+                    </div>
 
-                    <Checkbox
-                        isDisabled={isDisabled}
-                        value="flipVertical"
-                        isSelected={flipVertical}
-                        onChange={(isSelected) => setFlipVertical(isSelected)}
-                    >
-                        <Checkbox.Control>
-                            <Checkbox.Indicator />
-                        </Checkbox.Control>
-                        <Checkbox.Content>
-                            <Label>Отзеркалить по вертикали</Label>
+                    <div className="flex flex-col gap-3">
+                        <Checkbox
+                            isDisabled={isDisabled}
+                            value="flipVertical"
+                            isSelected={flipVertical}
+                            onChange={(isSelected) => setFlipVertical(isSelected)}
+                        >
+                            <Checkbox.Content>
+                                <Checkbox.Control>
+                                    <Checkbox.Indicator />
+                                </Checkbox.Control>
+                                <Label>Отзеркалить по вертикали</Label>
+                            </Checkbox.Content>
                             <Description>Переворачивает видео сверху вниз</Description>
-                        </Checkbox.Content>
-                    </Checkbox>
+                        </Checkbox>
+                    </div>
 
-                    <Checkbox
-                        isDisabled={isDisabled}
-                        value="removeMetadata"
-                        isSelected={removeMetadata}
-                        onChange={(isSelected) => setRemoveMetadata(isSelected)}
-                    >
-                        <Checkbox.Control>
-                            <Checkbox.Indicator />
-                        </Checkbox.Control>
-                        <Checkbox.Content>
-                            <Label>Удалить методанные</Label>
+                    <div className="flex flex-col gap-3">
+                        <Checkbox
+                            isDisabled={isDisabled}
+                            value="removeMetadata"
+                            isSelected={removeMetadata}
+                            onChange={(isSelected) => setRemoveMetadata(isSelected)}
+                        >
+                            <Checkbox.Content>
+                                <Checkbox.Control>
+                                    <Checkbox.Indicator />
+                                </Checkbox.Control>
+                                <Label>Удалить методанные</Label>
+                            </Checkbox.Content>
                             <Description>Удаление методанных из видео</Description>
-                        </Checkbox.Content>
-                    </Checkbox>
+                        </Checkbox>
+                    </div>
                 </div>
             )}
         </>
