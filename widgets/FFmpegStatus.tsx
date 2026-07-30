@@ -1,23 +1,11 @@
-import { Spinner } from '@heroui/react';
 import React from 'react';
 
 import { FFmpegStatusProps } from '@/interfaces/FFmpegStatusProps';
+import Loader from '@/shared/Loader';
 
 const FFmpegStatus = ({ isLoading, error, platform }: FFmpegStatusProps) => {
     if (isLoading) {
-        return (
-            <div className="flex items-center gap-4">
-                <Spinner />
-                <div className="flex flex-col gap-2">
-                    <p>Загрузка FFmpeg {platform === 'mobile' ? '(однопоточная)' : '(многопоточная)'}...</p>
-                    {platform && (
-                        <p className="text-xs text-gray-600">
-                            📱 Платформа: {platform === 'mobile' ? 'Мобильное устройство' : 'Десктоп'}
-                        </p>
-                    )}
-                </div>
-            </div>
-        );
+        return <Loader text={`Загрузка FFmpeg ${platform === 'mobile' ? '(однопоточная)' : '(многопоточная)'}...`} />;
     }
 
     if (error) {

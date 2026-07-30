@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 
+import Loader from '@/shared/Loader';
 import { useVideoStore } from '@/store/video';
 import { Frame } from '@/types';
 import { extractFrames } from '@/utils/extractFrames';
@@ -11,6 +12,7 @@ const TimeLines = () => {
     const file = useVideoStore((state) => state.file);
     const [frames, setFrames] = useState<Frame[]>([]);
     const frameUrlsRef = useRef<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (!file) {
@@ -27,6 +29,7 @@ const TimeLines = () => {
 
         const processVideo = async () => {
             try {
+                setLoading(true);
                 const extractedFrames = await extractFrames({
                     file: file,
                     frameCount: 10,
@@ -40,6 +43,8 @@ const TimeLines = () => {
                 }
             } catch (error) {
                 console.error('Ошибка при извлечении кадров:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -52,6 +57,8 @@ const TimeLines = () => {
             frameUrlsRef.current = [];
         };
     }, [file]);
+
+    if (loading) return <Loader text="Извлечение кадров..." />;
 
     return (
         <div>
