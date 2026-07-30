@@ -3,10 +3,11 @@
 import { Checkbox, Description, Label } from '@heroui/react';
 import React from 'react';
 
+import { CheckBoxesProps } from '@/interfaces/CheckBoxesProps';
 import { useVideoDetailsStore } from '@/store';
 import { useVideoStore } from '@/store/video';
 
-const CheckBoxes = () => {
+const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
     const flipHorizontal = useVideoDetailsStore((s) => s.flipHorizontal);
     const flipVertical = useVideoDetailsStore((s) => s.flipVertical);
     const removeMetadata = useVideoDetailsStore((s) => s.removeMetadata);
@@ -25,6 +26,7 @@ const CheckBoxes = () => {
                     <Description>Выберите нужные параметры</Description>
 
                     <Checkbox
+                        isDisabled={isDisabled}
                         value="flipHorizontal"
                         isSelected={flipHorizontal}
                         onChange={(isSelected) => setFlipHorizontal(isSelected)}
@@ -39,6 +41,7 @@ const CheckBoxes = () => {
                     </Checkbox>
 
                     <Checkbox
+                        isDisabled={isDisabled}
                         value="flipVertical"
                         isSelected={flipVertical}
                         onChange={(isSelected) => setFlipVertical(isSelected)}
@@ -53,6 +56,7 @@ const CheckBoxes = () => {
                     </Checkbox>
 
                     <Checkbox
+                        isDisabled={isDisabled}
                         value="removeMetadata"
                         isSelected={removeMetadata}
                         onChange={(isSelected) => setRemoveMetadata(isSelected)}

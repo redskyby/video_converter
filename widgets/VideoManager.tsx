@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 
+import CheckBoxes from '@/features/CheckBoxes';
 import ClearFileButton from '@/features/ClearFileButton';
 import ConvertButton from '@/features/ConvertButton';
 import DownloadVideoButton from '@/features/DownloadVideoButton';
@@ -97,6 +98,8 @@ function VideoManager() {
                 <p className="text-xs text-gray-600 ">{progress}%</p>
             </div>
             {file && <video ref={videoRef} controls className="w-full max-w-2xl"></video>}
+
+            {file && <CheckBoxes isDisabled={transcode} />}
         </div>
     );
 }
