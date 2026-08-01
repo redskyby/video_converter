@@ -34,10 +34,10 @@
 
 ## 4. Архитектура (FSD)
 
-- [ ] Создать `entities/video/` (сторы + типы)
-- [ ] Перенести хуки в `shared/lib/hooks/`
-- [ ] Перенести утилиты в `shared/lib/utils/`
-- [ ] Создать `shared/ui/` для обёрток над HeroUI
+- [x] Создать `entities/video/` (сторы + типы)
+- [x] Перенести хуки в `shared/lib/hooks/`
+- [x] Перенести утилиты в `shared/lib/utils/`
+- [x] Создать `shared/ui/` для обёрток над HeroUI
 
 ## 5. Инфраструктура
 
