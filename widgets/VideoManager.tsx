@@ -9,6 +9,7 @@ import ConvertButton from '@/features/ConvertButton';
 import DownloadVideoButton from '@/features/DownloadVideoButton';
 import FileSizeInfo from '@/features/FileSizeInfo';
 import FileUploader from '@/features/FileUploader';
+import Progress from '@/features/Progress';
 import SelectOutputFormat from '@/features/SelectOutputFormat';
 import { useFFmpeg } from '@/shared/lib/hooks/useFFmpeg';
 import { useVideoPreview } from '@/shared/lib/hooks/useVideoPreview';
@@ -93,10 +94,8 @@ function VideoManager() {
 
             {file && <FileSizeInfo inputSize={inputSize} outputSize={outputSize} />}
 
-            <div className="w-full bg-gray-200 rounded flex items-center h-auto pt-1 pb-1 pl-1">
-                <div className="bg-blue-500 h-2 rounded transition-all " style={{ width: `${progress}%` }} />
-                <p className="text-xs text-gray-600 ">{progress}%</p>
-            </div>
+            {file && <Progress value={progress} />}
+
             {file && <video ref={videoRef} controls className="w-full max-w-2xl"></video>}
 
             {file && <CheckBoxes isDisabled={transcode} />}
