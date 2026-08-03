@@ -1,7 +1,9 @@
 import { Label, ProgressBar } from '@heroui/react';
 import React from 'react';
 
-const Progress = ({ value }: { value: number }) => {
+import { ProgressProps } from '@/shared/interfaces/ProgressProps';
+
+const Progress = ({ value }: ProgressProps) => {
     return (
         <ProgressBar aria-label="Loading" className="w-full" value={value}>
             <Label>Loading</Label>
