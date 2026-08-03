@@ -17,6 +17,7 @@ import { FormatSelect } from '@/shared/types/FormatSelect';
 import { detectPlatform } from '@/shared/utils/detectPlatform';
 import { handleVideoProcessing } from '@/shared/utils/videoProcessing';
 import FFmpegStatus from '@/widgets/FFmpegStatus';
+import Header from '@/widgets/Header';
 
 function VideoManager() {
     const videoUrlRef = useRef<string | null>(null);
@@ -69,15 +70,7 @@ function VideoManager() {
 
     return (
         <div className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-2 p-4 space-y-4'}>
-            <div className="flex items-center justify-between">
-                <h1 className="text-xl font-bold">Video converter</h1>
-                {platform && (
-                    <p className="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded">
-                        {platform === 'mobile' ? '📱 Мобильное' : '🖥️ Десктоп'} • FFmpeg{' '}
-                        {platform === 'mobile' ? 'однопоточный' : 'многопоточный'}
-                    </p>
-                )}
-            </div>
+            <Header platform={platform} />
 
             <FileUploader onReset={handleReset} />
 
