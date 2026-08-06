@@ -26,7 +26,7 @@ export const buildFFmpegArgs = ({
     // 🎬 Настройка кодеков под формат
     if (extension === 'webm') {
         args.push('-c:v', 'libvpx', '-c:a', 'libvorbis');
-        args.push('-b:v', '0', '-crf', String(crf));
+        args.push('-b:v', '0', '-crf', String(58));
         args.push('-cpu-used', '5', '-deadline', 'good');
     } else {
         // Стандартные настройки для MP4 (x264)

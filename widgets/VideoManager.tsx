@@ -11,9 +11,11 @@ import FileSizeInfo from '@/features/FileSizeInfo';
 import FileUploader from '@/features/FileUploader';
 import Progress from '@/features/Progress';
 import SelectOutputFormat from '@/features/SelectOutputFormat';
+import TimeLines from '@/features/TimeLines';
 import { useFFmpeg } from '@/shared/lib/hooks/useFFmpeg';
 import { useVideoPreview } from '@/shared/lib/hooks/useVideoPreview';
 import { FormatSelect } from '@/shared/types/FormatSelect';
+import Loader from '@/shared/ui/Loader';
 import { detectPlatform } from '@/shared/utils/detectPlatform';
 import { handleVideoProcessing } from '@/shared/utils/videoProcessing';
 import FFmpegStatus from '@/widgets/FFmpegStatus';
@@ -89,9 +91,12 @@ function VideoManager() {
 
             {file && <Progress value={progress} />}
 
-            {file && <video ref={videoRef} controls className="w-full max-w-2xl"></video>}
+            {file && !transcode && <video ref={videoRef} controls className="w-full max-w-2xl" />}
+            {transcode && <Loader text="Конвертация..." />}
 
             {file && <CheckBoxes isDisabled={transcode} />}
+
+            {file && !transcode && <TimeLines />}
         </div>
     );
 }

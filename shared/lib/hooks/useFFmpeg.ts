@@ -17,10 +17,13 @@ export const useFFmpeg = () => {
                 const ffmpeg = new FFmpeg();
                 ffmpegRef.current = ffmpeg;
 
-                ffmpeg.on('progress', ({ progress: ratio }) => {
-                    // progress: число от 0 до 1 (0.5 = 50%)
-                    // time: текущая позиция в микросекундах
+                ffmpeg.on('progress', ({ progress: ratio, time }) => {
+                    console.log('Progress:', ratio, 'Time:', time);
                     setProgress(Math.round(ratio * 100));
+                });
+
+                ffmpeg.on('log', ({ message }) => {
+                    console.log('[FFmpeg]', message);
                 });
 
                 // Определяем платформу и выбираем соответствующий базовый URL
