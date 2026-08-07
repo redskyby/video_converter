@@ -58,20 +58,18 @@ const TimeLines = () => {
     if (loading) return <Loader text="Извлечение кадров..." />;
 
     return (
-        <div>
-            <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', padding: '10px' }}>
-                {frames.map((frame, index) => (
-                    <Image
-                        key={frame.time}
-                        src={frame.url}
-                        alt={`Кадр на ${frame.time.toFixed(2)}с`}
-                        width={160}
-                        height={100}
-                        priority={index < 3}
-                        style={{ objectFit: 'contain', border: '1px solid #ccc' }}
-                    />
-                ))}
-            </div>
+        <div className="flex gap-2.5 overflow-x-auto p-2.5 border-2 rounded-lg">
+            {frames.map((frame, index) => (
+                <Image
+                    key={frame.time}
+                    src={frame.url}
+                    alt={`Кадр на ${frame.time.toFixed(2)}с`}
+                    width={160}
+                    height={100}
+                    priority={index < 3}
+                    className="object-contain border border-gray-400"
+                />
+            ))}
         </div>
     );
 };

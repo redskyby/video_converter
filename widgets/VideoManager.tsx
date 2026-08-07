@@ -77,7 +77,7 @@ function VideoManager() {
                 {file && <ClearFileButton onReset={handleReset} />}
             </div>
 
-            <div className="flex items-center justify-between gap-4 ">
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
                 <ConvertButton onClick={handleConversion} isPending={transcode} isDisabled={isFileReady} />
 
                 {file && <DownloadVideoButton onReset={handleReset} isDisabled={transcode} />}
@@ -87,7 +87,15 @@ function VideoManager() {
 
             {file && <Progress value={progress} />}
 
-            {file && !transcode && <video ref={videoRef} controls className="w-full max-w-2xl" />}
+            {file && !transcode && (
+                <div className="flex items-center justify-center w-full">
+                    <video
+                        ref={videoRef}
+                        controls
+                        className="w-full max-w-xl flex items-center justify-center rounded-lg"
+                    />
+                </div>
+            )}
 
             {transcode && <Loader text="Конвертация..." />}
 
