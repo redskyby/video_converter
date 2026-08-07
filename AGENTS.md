@@ -14,7 +14,7 @@
 - `hooks/useFFmpeg.ts` — инициализация FFmpeg, лог прогресса, флаг `isLoading`, обработка ошибок через `error`.
 - `hooks/useVideoPreview.ts` — управление video-элементом: создание/освобождение ObjectURL, сброс фильтров при смене файла.
 - `utils/buildFFmpegArgs.ts` — **чистая функция**, принимает конфиг (flip, preset, crf, removeMetadata) — больше не читает стор напрямую.
-- `utils/videoProcessing.ts` — вынесенная логика транскодинга: `fetchFile` → `ffmpeg.writeFile` → `ffmpeg.exec` → `ffmpeg.readFile` → Blob → `setFile`; работает через `useVideoDetailsStore.getState()`.
+- `utils/handleVideoProcessing.ts` — вынесенная логика транскодинга: `fetchFile` → `ffmpeg.writeFile` → `ffmpeg.exec` → `ffmpeg.readFile` → Blob → `setFile`; работает через `useVideoDetailsStore.getState()`.
 - `utils/extractFrames.ts` + `features/TimeLines.tsx` — извлечение миниатюр и аккуратная очистка URL (revokeObjectURL).
 - `store/detailsStore.ts` — `useVideoDetailsStore` (опции: flip, preset, crf, removeMetadata) + `resetFilters`.
 - `store/videoStore.ts` — `useVideoStore` (текущий File).
@@ -63,4 +63,4 @@
 
 9. Где читать дальше (ключевые файлы)
 
-- `hooks/useFFmpeg.ts`, `hooks/useVideoPreview.ts`, `utils/buildFFmpegArgs.ts`, `utils/videoProcessing.ts`, `widgets/VideoManager.tsx`, `widgets/FFmpegStatus.tsx`, `utils/extractFrames.ts`, `features/TimeLines.tsx`, `features/CheckBoxes.tsx`, `features/ConvertButton.tsx`, `features/DownloadVideoButton.tsx`, `features/FileUploader.tsx`, `features/VideoPreview.tsx`, `store/*.ts`, `interfaces/*`.
+- `hooks/useFFmpeg.ts`, `hooks/useVideoPreview.ts`, `utils/buildFFmpegArgs.ts`, `utils/handleVideoProcessing.ts`, `widgets/VideoManager.tsx`, `widgets/FFmpegStatus.tsx`, `utils/extractFrames.ts`, `features/TimeLines.tsx`, `features/CheckBoxes.tsx`, `features/ConvertButton.tsx`, `features/DownloadVideoButton.tsx`, `features/FileUploader.tsx`, `features/VideoPreview.tsx`, `store/*.ts`, `interfaces/*`.

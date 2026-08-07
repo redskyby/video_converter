@@ -16,9 +16,6 @@ const TimeLines = () => {
 
     useEffect(() => {
         if (!file) {
-            frameUrlsRef.current.forEach(URL.revokeObjectURL);
-            frameUrlsRef.current = [];
-
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setFrames([]);
 

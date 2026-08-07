@@ -9,14 +9,14 @@
 - Фреймворк: Next.js (app router), React 19, TypeScript.
 - State management: zustand (два стора: `useVideoDetailsStore` в `store/detailsStore.ts` и `useVideoStore` в `store/videoStore.ts`).
 - UI: компоненты из `@heroui/react` + Tailwind CSS.
-- FFmpeg: используется wasm‑сборка (`@ffmpeg/ffmpeg`, `@ffmpeg/core-mt`, `@ffmpeg/util`) — инициализация в хуке `useFFmpeg` и дальнейшая работа в `utils/videoProcessing.ts`.
+- FFmpeg: используется wasm‑сборка (`@ffmpeg/ffmpeg`, `@ffmpeg/core-mt`, `@ffmpeg/util`) — инициализация в хуке `useFFmpeg` и дальнейшая работа в `utils/handleVideoProcessing.ts`.
 - Структура файлов (ключевые модули):
     - `hooks/useFFmpeg.ts` — загрузка FFmpeg с обработкой ошибок и прогрессом.
     - `hooks/useVideoPreview.ts` — управление video-элементом и ObjectURL.
     - `widgets/VideoManager.tsx` — главный оркестратор приложения.
     - `widgets/FFmpegStatus.tsx` — отображение загрузки/ошибок FFmpeg.
     - `utils/buildFFmpegArgs.ts` — чистая функция сборки аргументов ffmpeg.
-    - `utils/videoProcessing.ts` — вынесенная логика транскодинга.
+    - `utils/handleVideoProcessing.ts` — вынесенная логика транскодинга.
     - `utils/extractFrames.ts` + `features/TimeLines.tsx` — извлечение кадров и визуализация.
     - `features/CheckBoxes.tsx`, `ConvertButton.tsx`, `DownloadVideoButton.tsx`, `FileUploader.tsx`, `VideoPreview.tsx` — UI-компоненты.
     - `store/*.ts` и `interfaces/*` — модели состояния и типы.
@@ -45,7 +45,7 @@
 Что реализовано:
 
 - В `useFFmpeg` создаётся экземпляр FFmpeg (`new FFmpeg()`), подписываются события `progress`, загружаются ресурсы core/wasm/worker из CDN (через `toBlobURL` и `getFFmpegBaseURL`).
-- В `videoProcessing.ts` используется `fetchFile` (из `@ffmpeg/util`) и методы: `writeFile`, `exec`, `readFile`.
+- В `handleVideoProcessing.ts` используется `fetchFile` (из `@ffmpeg/util`) и методы: `writeFile`, `exec`, `readFile`.
 - Результат записывается в Blob/File и отображается в `<video>`.
 
 Особенности:

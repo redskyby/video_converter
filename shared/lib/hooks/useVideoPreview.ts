@@ -12,26 +12,30 @@ export const useVideoPreview = () => {
 
     useEffect(() => {
         if (!file || !videoRef.current) {
-            setFileReady(true);
             return;
         }
 
-        // 🔥 если был старый URL — освобождаем
+        const video = videoRef.current;
+
         if (videoUrlRef.current) {
             URL.revokeObjectURL(videoUrlRef.current);
         }
 
         const url = URL.createObjectURL(file);
         videoUrlRef.current = url;
-        videoRef.current.src = url;
 
-        setFileReady(false);
+        video.src = url;
+
+        video.onloadedmetadata = () => {
+            setFileReady(false);
+        };
 
         detailsStore.getState().resetFilters();
 
         return () => {
             if (videoUrlRef.current) {
                 URL.revokeObjectURL(videoUrlRef.current);
+                videoUrlRef.current = null;
             }
         };
     }, [file]);

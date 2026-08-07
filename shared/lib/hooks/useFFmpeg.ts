@@ -17,21 +17,13 @@ export const useFFmpeg = () => {
                 const ffmpeg = new FFmpeg();
                 ffmpegRef.current = ffmpeg;
 
-                ffmpeg.on('progress', ({ progress: ratio, time }) => {
-                    console.log('Progress:', ratio, 'Time:', time);
+                ffmpeg.on('progress', ({ progress: ratio }) => {
                     setProgress(Math.round(ratio * 100));
-                });
-
-                ffmpeg.on('log', ({ message }) => {
-                    console.log('[FFmpeg]', message);
                 });
 
                 // Определяем платформу и выбираем соответствующий базовый URL
                 const platform = detectPlatform();
                 const baseURL = getFFmpegBaseURL(platform);
-
-                // console.log(`🚀 Загрузка FFmpeg для платформы: ${platform}`);
-                // console.log(`📍 Base URL: ${baseURL}`);
 
                 await ffmpeg.load({
                     coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),

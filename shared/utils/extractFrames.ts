@@ -22,8 +22,11 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
                 URL.revokeObjectURL(frame.url);
             });
 
-            video.src = '';
-            video.remove();
+            video.pause();
+
+            video.onloadedmetadata = null;
+            video.onseeked = null;
+            video.onerror = null;
         };
 
         signal?.addEventListener('abort', () => {
@@ -65,13 +68,13 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
                                 res();
                             },
                             'image/jpeg',
-                            0.6,
+                            0.5,
                         );
                     };
                 });
             }
 
-            // 👇 Очищаем URL самого видеофайла после того, как все кадры извлечены
+            // Очищаем URL самого видеофайла после того, как все кадры извлечены
             URL.revokeObjectURL(videoUrl);
 
             resolve(frames);

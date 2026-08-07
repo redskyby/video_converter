@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { videoStore } from '@/entities/video/videoStore';
 import CheckBoxes from '@/features/CheckBoxes';
@@ -17,13 +17,11 @@ import { useVideoPreview } from '@/shared/lib/hooks/useVideoPreview';
 import { FormatSelect } from '@/shared/types/FormatSelect';
 import Loader from '@/shared/ui/Loader';
 import { detectPlatform } from '@/shared/utils/detectPlatform';
-import { handleVideoProcessing } from '@/shared/utils/videoProcessing';
+import { handleVideoProcessing } from '@/shared/utils/handleVideoProcessing';
 import FFmpegStatus from '@/widgets/FFmpegStatus';
 import Header from '@/widgets/Header';
 
 function VideoManager() {
-    const videoUrlRef = useRef<string | null>(null);
-
     const [transcode, setTranscoding] = useState<boolean>(false);
     const [platform] = useState<string>(() => detectPlatform());
 
@@ -54,8 +52,6 @@ function VideoManager() {
         const convertedFile = await handleVideoProcessing({
             ffmpegRef,
             setTranscoding,
-            videoRef,
-            videoUrlRef,
             format,
         });
 
@@ -91,7 +87,8 @@ function VideoManager() {
 
             {file && <Progress value={progress} />}
 
-            {file && !transcode && <video ref={videoRef} controls className="w-full max-w-2xl" />}
+            {file && <video ref={videoRef} controls className="w-full max-w-2xl" />}
+
             {transcode && <Loader text="Конвертация..." />}
 
             {file && <CheckBoxes isDisabled={transcode} />}

@@ -5,13 +5,7 @@ import { videoStore } from '@/entities/video/videoStore';
 import { handleVideoProcessingProps } from '@/shared/interfaces/HandleVideoProcessingProps';
 import { buildFFmpegArgs } from '@/shared/utils/buildFFmpegArgs';
 
-export async function handleVideoProcessing({
-    ffmpegRef,
-    setTranscoding,
-    videoRef,
-    videoUrlRef,
-    format,
-}: handleVideoProcessingProps) {
+export async function handleVideoProcessing({ ffmpegRef, setTranscoding, format }: handleVideoProcessingProps) {
     try {
         setTranscoding(true);
         const state = detailsStore.getState();
@@ -46,36 +40,27 @@ export async function handleVideoProcessing({
 
         const data = await ffmpeg.readFile(`output.${extension}`);
 
-        // Проверяем, что данные есть и это вид на ArrayBuffer (Uint8Array или похожий)
-        if (videoRef.current && data && ArrayBuffer.isView(data as ArrayBufferView)) {
-            // 🔥 если был старый URL — освобождаем
-            if (videoUrlRef.current) {
-                URL.revokeObjectURL(videoUrlRef.current);
-            }
-
-            const uint8 = data as Uint8Array;
-
-            // Приводим буфер к ArrayBuffer, чтобы соответствовать типам BlobPart
-            const mimeType = format === 'MP4' ? 'video/mp4' : 'video/webm';
-
-            const blob = new Blob([uint8.buffer as ArrayBuffer], {
-                type: mimeType,
-            });
-
-            const fileName = `converted-${crypto.randomUUID()}.${extension}`;
-
-            // Создаем объект File из blob, чтобы соответствовать типу в сторе
-            const newFile = new File([blob], fileName, {
-                type: mimeType,
-            });
-
-            const url = URL.createObjectURL(newFile);
-
-            videoUrlRef.current = url; // сохраняем новый URL
-            videoRef.current.src = url;
-
-            return newFile;
+        if (!data || !ArrayBuffer.isView(data as ArrayBufferView)) {
+            throw new Error('Не удалось прочитать результат');
         }
+
+        const uint8 = data as Uint8Array;
+
+        // Приводим буфер к ArrayBuffer, чтобы соответствовать типам BlobPart
+        const mimeType = format === 'MP4' ? 'video/mp4' : 'video/webm';
+
+        const blob = new Blob([uint8.buffer as ArrayBuffer], {
+            type: mimeType,
+        });
+
+        const fileName = `converted-${crypto.randomUUID()}.${extension}`;
+
+        // Создаем объект File из blob, чтобы соответствовать типу в сторе
+        const newFile = new File([blob], fileName, {
+            type: mimeType,
+        });
+
+        return newFile;
     } catch (error) {
         console.error(error);
 
