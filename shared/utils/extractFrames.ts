@@ -17,7 +17,7 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
         video.playsInline = true;
 
         signal?.addEventListener('abort', () => {
-            cleanupVideoResources(videoUrl, frames, video);
+            cleanupVideoResources({ videoUrl: videoUrl, frames: frames, video: video });
             resolve([]);
         });
 
@@ -29,7 +29,7 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
 
             for (let i = 0; i < frameCount; i++) {
                 if (signal?.aborted) {
-                    cleanupVideoResources(videoUrl, frames, video);
+                    cleanupVideoResources({ videoUrl: videoUrl, frames: frames, video: video });
                     resolve([]);
                     return;
                 }
@@ -68,7 +68,7 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
         };
 
         video.onerror = () => {
-            cleanupVideoResources(videoUrl, frames, video);
+            cleanupVideoResources({ videoUrl: videoUrl, frames: frames, video: video });
             resolve([]);
         };
     });
