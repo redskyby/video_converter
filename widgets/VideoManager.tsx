@@ -12,6 +12,7 @@ import FileUploader from '@/features/FileUploader';
 import Progress from '@/features/Progress';
 import SelectOutputFormat from '@/features/SelectOutputFormat';
 import TimeLines from '@/features/TimeLines';
+import VideoPlayer from '@/features/VideoPlayer';
 import { useFFmpeg } from '@/shared/lib/hooks/useFFmpeg';
 import { useVideoPreview } from '@/shared/lib/hooks/useVideoPreview';
 import { FormatSelect } from '@/shared/types/FormatSelect';
@@ -87,15 +88,7 @@ function VideoManager() {
 
             {file && <Progress value={progress} />}
 
-            {file && !transcode && (
-                <div className="flex items-center justify-center w-full">
-                    <video
-                        ref={videoRef}
-                        controls
-                        className="w-full max-w-xl flex items-center justify-center rounded-lg"
-                    />
-                </div>
-            )}
+            {file && !transcode && <VideoPlayer videoRef={videoRef} />}
 
             {transcode && <Loader text="Конвертация..." />}
 
