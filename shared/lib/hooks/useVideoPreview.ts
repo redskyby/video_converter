@@ -12,7 +12,6 @@ export const useVideoPreview = () => {
 
     useEffect(() => {
         if (!file || !videoRef.current) {
-            console.log('Ошибка при загрузке видео!');
             return;
         }
 

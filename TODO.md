@@ -52,3 +52,4 @@
 - [ ] Добавить тесты (Vitest)
 - [ ] Добавить CI/CD (lint → test → build)
 - [ ] Error boundary
+- [x] Добавить Vercel Analytics (@vercel/analytics) в layout.tsx
