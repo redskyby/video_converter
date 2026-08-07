@@ -1,5 +1,6 @@
 import { ExtractFramesProps } from '@/shared/interfaces/ExtractFramesProps';
 import { Frame } from '@/shared/types/Frame';
+import { cleanupVideoResources } from '@/shared/utils/cleanupVideoResources';
 
 export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesProps): Promise<Frame[]> => {
     return new Promise((resolve) => {
@@ -15,22 +16,8 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
         video.muted = true;
         video.playsInline = true;
 
-        const cleanup = () => {
-            URL.revokeObjectURL(videoUrl);
-
-            frames.forEach((frame) => {
-                URL.revokeObjectURL(frame.url);
-            });
-
-            video.pause();
-
-            video.onloadedmetadata = null;
-            video.onseeked = null;
-            video.onerror = null;
-        };
-
         signal?.addEventListener('abort', () => {
-            cleanup();
+            cleanupVideoResources(videoUrl, frames, video);
             resolve([]);
         });
 
@@ -42,7 +29,7 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
 
             for (let i = 0; i < frameCount; i++) {
                 if (signal?.aborted) {
-                    cleanup();
+                    cleanupVideoResources(videoUrl, frames, video);
                     resolve([]);
                     return;
                 }
@@ -81,7 +68,7 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
         };
 
         video.onerror = () => {
-            cleanup();
+            cleanupVideoResources(videoUrl, frames, video);
             resolve([]);
         };
     });
