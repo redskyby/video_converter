@@ -1,4 +1,4 @@
-import { CleanupVideoResourcesProps } from '@/shared/interfaces/cleanupVideoResourcesProps';
+import { CleanupVideoResourcesProps } from '@/shared/interfaces/CleanupVideoResourcesProps';
 
 export const cleanupVideoResources = ({ videoUrl, frames, video }: CleanupVideoResourcesProps) => {
     URL.revokeObjectURL(videoUrl);

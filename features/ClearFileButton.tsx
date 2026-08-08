@@ -5,7 +5,7 @@ import React from 'react';
 import { videoStore } from '@/entities/video/videoStore';
 import { OnResetProps } from '@/shared/interfaces/OnResetProps';
 
-const ClearFileButton = ({ onReset }: OnResetProps) => {
+const ClearFileButton = ({ onReset, isDisabled }: OnResetProps) => {
     const setFile = videoStore((s) => s.setFile);
     const handleFileChange = () => {
         onReset();
@@ -13,7 +13,7 @@ const ClearFileButton = ({ onReset }: OnResetProps) => {
     };
 
     return (
-        <Button onClick={handleFileChange} isIconOnly variant="danger">
+        <Button onClick={handleFileChange} isIconOnly variant="danger" isDisabled={isDisabled}>
             <TrashBin />
         </Button>
     );

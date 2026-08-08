@@ -1,21 +1,17 @@
 import { Label, ListBox, Select } from '@heroui/react';
 import React from 'react';
 
+import { SelectOutputFormatProps } from '@/shared/interfaces/SelectOutputFormatProps';
 import { FormatSelect } from '@/shared/types/FormatSelect';
 
-const SelectOutputFormat = ({
-    currentFormat,
-    selectFormat,
-}: {
-    currentFormat: FormatSelect;
-    selectFormat: React.Dispatch<React.SetStateAction<FormatSelect>>;
-}) => {
+const SelectOutputFormat = ({ currentFormat, selectFormat, isDisabled }: SelectOutputFormatProps) => {
     return (
         <Select
             className="w-[256px]"
             placeholder="Select one"
             selectedKey={currentFormat}
             onSelectionChange={(key) => selectFormat(key as FormatSelect)}
+            isDisabled={isDisabled}
         >
             <Label>Формат файла</Label>
             <Select.Trigger>

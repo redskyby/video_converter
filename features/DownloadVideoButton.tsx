@@ -3,9 +3,9 @@ import { Button } from '@heroui/react';
 import React from 'react';
 
 import { videoStore } from '@/entities/video/videoStore';
-import { DownloadVideoButtonProps } from '@/shared/interfaces/DownloadVideoButtonProps';
+import { OnResetProps } from '@/shared/interfaces/OnResetProps';
 
-const DownloadVideoButton = ({ onReset, isDisabled = false }: DownloadVideoButtonProps) => {
+const DownloadVideoButton = ({ onReset, isDisabled = false }: OnResetProps) => {
     const file = videoStore((s) => s.file);
 
     const handleDownload = () => {
