@@ -20,6 +20,10 @@ export const useFFmpeg = () => {
                 ffmpeg.on('progress', ({ progress: ratio }) => {
                     setProgress(Math.round(ratio * 100));
                 });
+                //
+                // ffmpeg.on('log', ({ message }) => {
+                //     console.log(message);
+                // });
 
                 // Определяем платформу и выбираем соответствующий базовый URL
                 const platform = detectPlatform();
