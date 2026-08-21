@@ -72,7 +72,7 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
                     signal?.removeEventListener('abort', onAbort);
 
                     if (signal?.aborted) {
-                        resolve();
+                        reject(new DOMException('Aborted', 'AbortError'));
                         return;
                     }
 
@@ -111,6 +111,10 @@ export const extractFrames = async ({ file, frameCount, signal }: ExtractFramesP
 
         throw error;
     } finally {
+        video.onloadedmetadata = null;
+        video.onerror = null;
+        video.onseeked = null;
+
         video.pause();
         video.removeAttribute('src');
         video.load();
