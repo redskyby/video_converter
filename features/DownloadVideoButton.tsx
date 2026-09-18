@@ -1,12 +1,14 @@
 import { ArrowDownToLine } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { videoStore } from '@/entities/video/videoStore';
 import { OnResetProps } from '@/shared/interfaces/OnResetProps';
 
 const DownloadVideoButton = ({ onReset, isDisabled = false }: OnResetProps) => {
     const file = videoStore((s) => s.file);
+    const { t } = useTranslation('common');
 
     const handleDownload = () => {
         if (!file) {
@@ -36,7 +38,7 @@ const DownloadVideoButton = ({ onReset, isDisabled = false }: OnResetProps) => {
             className={`font-medium transition-all duration-500 ease-out transform `}
         >
             <ArrowDownToLine className="w-4 h-4" />
-            Скачать видео
+            {t('download')}
         </Button>
     );
 };

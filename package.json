@@ -18,10 +18,13 @@
         "@heroui/react": "^3.0.0-beta.6",
         "@heroui/styles": "^3.0.0-beta.6",
         "@vercel/analytics": "^2.0.1",
+        "i18next": "^26.4.2",
         "lint-staged": "^16.2.7",
         "next": "^16.1.6",
+        "next-i18next": "^16.3.1",
         "react": "19.2.3",
         "react-dom": "19.2.3",
+        "react-i18next": "^17.0.14",
         "zustand": "^5.0.11"
     },
     "devDependencies": {
