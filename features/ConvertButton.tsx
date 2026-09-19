@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ConvertButtonProps } from '@/shared/interfaces/ConvertButtonProps';
 
 function ConvertButton({ onClick, isPending, isDisabled = false }: ConvertButtonProps) {
-    const { t } = useTranslation('common');
+    const { t } = useTranslation('buttons');
 
     return (
         <Button onClick={onClick} isPending={isPending} isDisabled={isDisabled} className="group font-medium">

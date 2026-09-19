@@ -1,10 +1,13 @@
 import { Label, ListBox, Select } from '@heroui/react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { SelectOutputFormatProps } from '@/shared/interfaces/SelectOutputFormatProps';
 import { FormatSelect } from '@/shared/types/FormatSelect';
 
 const SelectOutputFormat = ({ currentFormat, selectFormat, isDisabled }: SelectOutputFormatProps) => {
+    const { t } = useTranslation('videoFormat');
+
     return (
         <Select
             className="w-[256px]"
@@ -13,7 +16,7 @@ const SelectOutputFormat = ({ currentFormat, selectFormat, isDisabled }: SelectO
             onSelectionChange={(key) => selectFormat(key as FormatSelect)}
             isDisabled={isDisabled}
         >
-            <Label>Формат файла</Label>
+            <Label>{t('videoFormat')}</Label>
             <Select.Trigger>
                 <Select.Value />
                 <Select.Indicator />

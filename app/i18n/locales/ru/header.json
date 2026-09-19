@@ -1,0 +1,7 @@
+{
+    "title": "Он-лайн конвертер",
+    "mobilePlatform": "Мобильное",
+    "PC_Platform": "Десктоп",
+    "singleThread": "однопоточный",
+    "multiThread": "многопоточный"
+}

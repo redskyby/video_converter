@@ -1,0 +1,7 @@
+{
+    "title": "Video Converter",
+    "mobilePlatform": "Mobile",
+    "PC_Platform": "PC",
+    "singleThread": "single thread",
+    "multiThread": "multi thread"
+}

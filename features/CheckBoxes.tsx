@@ -2,6 +2,7 @@
 
 import { Checkbox, Description, Label } from '@heroui/react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { detailsStore } from '@/entities/video/detailsStore';
 import { videoStore } from '@/entities/video/videoStore';
@@ -18,14 +19,18 @@ const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
 
     const file = videoStore((s) => s.file);
 
+    const { t } = useTranslation('videoSettings');
+
     return (
         <>
             {file && (
                 <div className="border-2 p-4 rounded-lg space-y-3">
                     <div>
-                        <p className="text-sm font-medium">Настройки видео</p>
-                        <p className="text-xs text-gray-500">Выберите нужные параметры</p>
+                        <p className="text-sm font-medium">{t('videoSettings')}</p>
+
+                        <p className="text-xs text-gray-500">{t('chooseOptions')}</p>
                     </div>
+
                     <div className="flex flex-col gap-3">
                         <Checkbox
                             isDisabled={isDisabled}
@@ -37,9 +42,11 @@ const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
                                 <Checkbox.Control>
                                     <Checkbox.Indicator />
                                 </Checkbox.Control>
-                                <Label>Отзеркалить по горизонтали</Label>
+
+                                <Label>{t('flipHorizontal')}</Label>
                             </Checkbox.Content>
-                            <Description>Переворачивает видео слева направо</Description>
+
+                            <Description>{t('flipHorizontalDescription')}</Description>
                         </Checkbox>
                     </div>
 
@@ -54,9 +61,11 @@ const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
                                 <Checkbox.Control>
                                     <Checkbox.Indicator />
                                 </Checkbox.Control>
-                                <Label>Отзеркалить по вертикали</Label>
+
+                                <Label>{t('flipVertical')}</Label>
                             </Checkbox.Content>
-                            <Description>Переворачивает видео сверху вниз</Description>
+
+                            <Description>{t('flipVerticalDescription')}</Description>
                         </Checkbox>
                     </div>
 
@@ -71,9 +80,11 @@ const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
                                 <Checkbox.Control>
                                     <Checkbox.Indicator />
                                 </Checkbox.Control>
-                                <Label>Удалить методанные</Label>
+
+                                <Label>{t('removeMetadata')}</Label>
                             </Checkbox.Content>
-                            <Description>Удаление методанных из видео</Description>
+
+                            <Description>{t('removeMetadataDescription')}</Description>
                         </Checkbox>
                     </div>
                 </div>

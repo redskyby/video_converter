@@ -1,0 +1,13 @@
+{
+    "videoSettings": "Настройки видео",
+    "chooseOptions": "Выберите нужные параметры",
+
+    "flipHorizontal": "Отразить по горизонтали",
+    "flipHorizontalDescription": "Отражает видео слева направо",
+
+    "flipVertical": "Отразить по вертикали",
+    "flipVerticalDescription": "Отражает видео сверху вниз",
+
+    "removeMetadata": "Удалить метаданные",
+    "removeMetadataDescription": "Удаляет метаданные из видео"
+}

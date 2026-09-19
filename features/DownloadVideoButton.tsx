@@ -8,7 +8,7 @@ import { OnResetProps } from '@/shared/interfaces/OnResetProps';
 
 const DownloadVideoButton = ({ onReset, isDisabled = false }: OnResetProps) => {
     const file = videoStore((s) => s.file);
-    const { t } = useTranslation('common');
+    const { t } = useTranslation('buttons');
 
     const handleDownload = () => {
         if (!file) {

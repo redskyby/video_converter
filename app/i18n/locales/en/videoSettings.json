@@ -1,0 +1,13 @@
+{
+    "videoSettings": "Video settings",
+    "chooseOptions": "Choose the options you need",
+
+    "flipHorizontal": "Flip horizontally",
+    "flipHorizontalDescription": "Flips the video from left to right",
+
+    "flipVertical": "Flip vertically",
+    "flipVerticalDescription": "Flips the video from top to bottom",
+
+    "removeMetadata": "Remove metadata",
+    "removeMetadataDescription": "Removes metadata from the video"
+}
