@@ -13,7 +13,6 @@ function ConvertButton({ onClick, isPending, isDisabled = false }: ConvertButton
             {isPending ? (
                 <Spinner color="current" size="sm" />
             ) : (
-                // Иконка плавно повернется на 180 градусов при наведении на кнопку
                 <Gear className="w-4 h-4 transition-transform duration-500 ease-in-out group-hover:rotate-180" />
             )}
             {isPending ? `${t('converting')}` : `${t('convert')}`}
