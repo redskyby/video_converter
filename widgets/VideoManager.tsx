@@ -27,7 +27,7 @@ function VideoManager() {
     const [platform] = useState<string>(() => detectPlatform());
 
     const { ffmpegRef, isLoading, progress, error, setProgress } = useFFmpeg();
-    const { videoRef, isFileReady } = useVideoPreview();
+    const { videoRef, videoUrl, isFileReady } = useVideoPreview();
 
     const file = videoStore((s) => s.file);
     const setFile = videoStore((s) => s.setFile);
@@ -88,7 +88,7 @@ function VideoManager() {
 
             {file && <Progress value={progress} />}
 
-            {file && !transcode && <VideoPlayer videoRef={videoRef} />}
+            {file && !transcode && <VideoPlayer videoRef={videoRef} videoUrl={videoUrl} />}
 
             {transcode && <Loader text="Конвертация..." />}
 

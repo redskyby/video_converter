@@ -5,40 +5,43 @@ import { videoStore } from '@/entities/video/videoStore';
 
 export const useVideoPreview = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
-    const videoUrlRef = useRef<string | null>(null);
-    const [isFileReady, setFileReady] = useState<boolean>(true);
+
+    const [videoUrl, setVideoUrl] = useState<string | null>(null);
+    const [isFileReady, setFileReady] = useState(true);
 
     const file = videoStore((s) => s.file);
 
     useEffect(() => {
-        if (!file || !videoRef.current) {
+        if (!file) {
+            // Сначала очищаем сам <video>
+            if (videoRef.current) {
+                videoRef.current.pause();
+                videoRef.current.removeAttribute('src');
+                videoRef.current.load();
+            }
+
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setVideoUrl(null);
+            setFileReady(true);
+
             return;
         }
 
-        const video = videoRef.current;
-
-        if (videoUrlRef.current) {
-            URL.revokeObjectURL(videoUrlRef.current);
-        }
-
         const url = URL.createObjectURL(file);
-        videoUrlRef.current = url;
 
-        video.src = url;
-
-        video.onloadedmetadata = () => {
-            setFileReady(false);
-        };
+        setVideoUrl(url);
+        setFileReady(false);
 
         detailsStore.getState().resetFilters();
 
         return () => {
-            if (videoUrlRef.current) {
-                URL.revokeObjectURL(videoUrlRef.current);
-                videoUrlRef.current = null;
-            }
+            URL.revokeObjectURL(url);
         };
     }, [file]);
 
-    return { videoRef, isFileReady };
+    return {
+        videoRef,
+        videoUrl,
+        isFileReady,
+    };
 };
