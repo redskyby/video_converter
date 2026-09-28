@@ -7,5 +7,6 @@ export interface BuildFFmpegArgsProps {
     preset: string;
     crf: number;
     removeMetadata: boolean;
+    removeSound: boolean;
     format: FormatSelect;
 }

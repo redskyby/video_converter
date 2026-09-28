@@ -9,5 +9,8 @@
     "flipVerticalDescription": "Flips the video from top to bottom",
 
     "removeMetadata": "Remove metadata",
-    "removeMetadataDescription": "Removes metadata from the video"
+    "removeMetadataDescription": "Removes metadata from the video",
+
+    "removeSound": "Remove audiotrack",
+    "removeSoundDescription": "Removes audiotrack from the video"
 }

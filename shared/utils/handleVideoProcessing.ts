@@ -31,6 +31,7 @@ export async function handleVideoProcessing({ ffmpegRef, setTranscoding, format 
             preset: state.preset,
             crf: state.crf,
             removeMetadata: state.removeMetadata,
+            removeSound: state.removeSound,
             format: format,
         });
 

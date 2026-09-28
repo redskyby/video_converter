@@ -12,10 +12,12 @@ const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
     const flipHorizontal = detailsStore((s) => s.flipHorizontal);
     const flipVertical = detailsStore((s) => s.flipVertical);
     const removeMetadata = detailsStore((s) => s.removeMetadata);
+    const removeSound = detailsStore((s) => s.removeSound);
 
     const setFlipHorizontal = detailsStore((s) => s.setFlipHorizontal);
     const setFlipVertical = detailsStore((s) => s.setFlipVertical);
     const setRemoveMetadata = detailsStore((s) => s.setRemoveMetadata);
+    const setRemoveSound = detailsStore((s) => s.setRemoveSound);
 
     const file = videoStore((s) => s.file);
 
@@ -85,6 +87,25 @@ const CheckBoxes = ({ isDisabled }: CheckBoxesProps) => {
                             </Checkbox.Content>
 
                             <Description>{t('removeMetadataDescription')}</Description>
+                        </Checkbox>
+                    </div>
+
+                    <div className="flex flex-col gap-3">
+                        <Checkbox
+                            isDisabled={isDisabled}
+                            value="removeSound"
+                            isSelected={removeSound}
+                            onChange={(isSelected) => setRemoveSound(isSelected)}
+                        >
+                            <Checkbox.Content>
+                                <Checkbox.Control>
+                                    <Checkbox.Indicator />
+                                </Checkbox.Control>
+
+                                <Label>{t('removeSound')}</Label>
+                            </Checkbox.Content>
+
+                            <Description>{t('removeSoundDescription')}</Description>
                         </Checkbox>
                     </div>
                 </div>

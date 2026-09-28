@@ -8,6 +8,7 @@ export const detailsStore = create<VideoDetails>((set) => ({
     preset: 'ultrafast',
     crf: 23,
     removeMetadata: false,
+    removeSound: false,
 
     setFlipHorizontal: (value: boolean) => set({ flipHorizontal: value }),
 
@@ -19,10 +20,13 @@ export const detailsStore = create<VideoDetails>((set) => ({
 
     setRemoveMetadata: (value: boolean) => set({ removeMetadata: value }),
 
+    setRemoveSound: (value: boolean) => set({ removeSound: value }),
+
     resetFilters: () =>
         set({
             flipHorizontal: false,
             flipVertical: false,
             removeMetadata: false,
+            removeSound: false,
         }),
 }));

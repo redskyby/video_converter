@@ -7,6 +7,7 @@ export const buildFFmpegArgs = ({
     preset,
     crf,
     removeMetadata,
+    removeSound,
     format,
 }: BuildFFmpegArgsProps): string[] => {
     const filters: string[] = [];
@@ -21,6 +22,10 @@ export const buildFFmpegArgs = ({
     // 🔥 Удаление метаданных
     if (removeMetadata) {
         args.push('-map_metadata', '-1', '-map_chapters', '-1');
+    }
+
+    if (removeSound) {
+        args.push('-an');
     }
 
     if (extension === 'webm') {

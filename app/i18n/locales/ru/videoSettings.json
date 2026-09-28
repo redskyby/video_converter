@@ -9,5 +9,8 @@
     "flipVerticalDescription": "Отражает видео сверху вниз",
 
     "removeMetadata": "Удалить метаданные",
-    "removeMetadataDescription": "Удаляет метаданные из видео"
+    "removeMetadataDescription": "Удаляет метаданные из видео",
+
+    "removeSound": "Удалить аудиодорожку",
+    "removeSoundDescription": "Удалить аудиодорожку из видео"
 }

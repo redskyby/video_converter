@@ -4,10 +4,12 @@ export interface VideoDetails {
     preset: string;
     crf: number;
     removeMetadata: boolean;
+    removeSound: boolean;
     setFlipHorizontal: (value: boolean) => void;
     setFlipVertical: (value: boolean) => void;
     setPreset: (value: string) => void;
     setCrf: (value: number) => void;
     setRemoveMetadata: (value: boolean) => void;
+    setRemoveSound: (value: boolean) => void;
     resetFilters: () => void;
 }
