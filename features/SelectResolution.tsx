@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Resolution } from '@/shared/types/Resolution';
 
+//TODO : ИСПРАВИТЬ "<Label>{t('videoResolution')}</Label>". Проблема : не переключается
+
 const SelectResolution = ({
     resolution,
     setResolution,

@@ -4,7 +4,7 @@ const i18n: I18nConfig = {
     supportedLngs: ['en', 'ru'],
     fallbackLng: 'ru',
     //defaultNS: 'common',
-    ns: ['header', 'buttons', 'videoSettings', 'videoFormat'],
+    ns: ['header', 'buttons', 'videoSettings', 'videoFormat', 'videoResolution'],
     localeParamName: 'locale',
 
     // Recommended: works on all platforms including Vercel/serverless
