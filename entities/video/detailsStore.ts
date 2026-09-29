@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 import { VideoDetails } from '@/shared/interfaces/VideoDetails';
+import { Resolution } from '@/shared/types/Resolution';
 
 export const detailsStore = create<VideoDetails>((set) => ({
     flipHorizontal: false,
@@ -9,6 +10,7 @@ export const detailsStore = create<VideoDetails>((set) => ({
     crf: 23,
     removeMetadata: false,
     removeSound: false,
+    resolution: '1080p',
 
     setFlipHorizontal: (value: boolean) => set({ flipHorizontal: value }),
 
@@ -22,11 +24,14 @@ export const detailsStore = create<VideoDetails>((set) => ({
 
     setRemoveSound: (value: boolean) => set({ removeSound: value }),
 
+    setResolution: (value: Resolution) => set({ resolution: value }),
+
     resetFilters: () =>
         set({
             flipHorizontal: false,
             flipVertical: false,
             removeMetadata: false,
             removeSound: false,
+            resolution: '1080p',
         }),
 }));

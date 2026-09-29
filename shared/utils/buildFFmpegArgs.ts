@@ -1,4 +1,13 @@
+import { logBuildDebugHint } from 'next/dist/server/app-render/blocking-route-messages';
+
 import { BuildFFmpegArgsProps } from '@/shared/interfaces/BuildFFmpegArgsProps';
+import { Resolution } from '@/shared/types/Resolution';
+
+const resolutionMap: Record<Resolution, number> = {
+    '1080p': 1080,
+    '720p': 720,
+    '480p': 480,
+};
 
 export const buildFFmpegArgs = ({
     fileName,
@@ -9,6 +18,7 @@ export const buildFFmpegArgs = ({
     removeMetadata,
     removeSound,
     format,
+    resolution,
 }: BuildFFmpegArgsProps): string[] => {
     const filters: string[] = [];
 
@@ -26,6 +36,12 @@ export const buildFFmpegArgs = ({
 
     if (removeSound) {
         args.push('-an');
+    }
+
+    if (resolution) {
+        const height = resolutionMap[resolution];
+
+        filters.push(`scale=-2:${height}`);
     }
 
     if (extension === 'webm') {

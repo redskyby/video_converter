@@ -11,11 +11,13 @@ import FileSizeInfo from '@/features/FileSizeInfo';
 import FileUploader from '@/features/FileUploader';
 import Progress from '@/features/Progress';
 import SelectOutputFormat from '@/features/SelectOutputFormat';
+import SelectResolution from '@/features/SelectResolution';
 import TimeLines from '@/features/TimeLines';
 import VideoPlayer from '@/features/VideoPlayer';
 import { useFFmpeg } from '@/shared/lib/hooks/useFFmpeg';
 import { useVideoPreview } from '@/shared/lib/hooks/useVideoPreview';
 import { FormatSelect } from '@/shared/types/FormatSelect';
+import { Resolution } from '@/shared/types/Resolution';
 import Loader from '@/shared/ui/Loader';
 import { detectPlatform } from '@/shared/utils/detectPlatform';
 import { handleVideoProcessing } from '@/shared/utils/handleVideoProcessing';
@@ -36,6 +38,7 @@ function VideoManager() {
     const [outputSize, setOutputSize] = useState<number | null>(null);
 
     const [format, setFormat] = useState<FormatSelect>('MP4');
+    const [resolution, setResolution] = useState<Resolution>('1080p');
 
     const handleReset = () => {
         setProgress(0);
@@ -54,6 +57,7 @@ function VideoManager() {
             ffmpegRef,
             setTranscoding,
             format,
+            resolution,
         });
 
         if (!convertedFile) return;
@@ -74,7 +78,19 @@ function VideoManager() {
             <FileUploader onReset={handleReset} isDisabled={transcode} />
 
             <div className="flex items-center justify-between gap-4">
-                {file && <SelectOutputFormat currentFormat={format} selectFormat={setFormat} isDisabled={transcode} />}
+                <div className="flex w-full flex-col gap-4 sm:flex-row">
+                    {file && (
+                        <SelectOutputFormat currentFormat={format} selectFormat={setFormat} isDisabled={transcode} />
+                    )}
+
+                    {file && (
+                        <SelectResolution
+                            resolution={resolution}
+                            setResolution={setResolution}
+                            isDisabled={transcode}
+                        />
+                    )}
+                </div>
                 {file && <ClearFileButton onReset={handleReset} isDisabled={transcode} />}
             </div>
 

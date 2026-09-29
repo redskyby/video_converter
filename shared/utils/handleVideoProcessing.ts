@@ -5,7 +5,12 @@ import { videoStore } from '@/entities/video/videoStore';
 import { handleVideoProcessingProps } from '@/shared/interfaces/HandleVideoProcessingProps';
 import { buildFFmpegArgs } from '@/shared/utils/buildFFmpegArgs';
 
-export async function handleVideoProcessing({ ffmpegRef, setTranscoding, format }: handleVideoProcessingProps) {
+export async function handleVideoProcessing({
+    ffmpegRef,
+    setTranscoding,
+    format,
+    resolution,
+}: handleVideoProcessingProps) {
     try {
         setTranscoding(true);
         const state = detailsStore.getState();
@@ -33,6 +38,7 @@ export async function handleVideoProcessing({ ffmpegRef, setTranscoding, format 
             removeMetadata: state.removeMetadata,
             removeSound: state.removeSound,
             format: format,
+            resolution: resolution,
         });
 
         await ffmpeg.exec(args);

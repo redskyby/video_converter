@@ -50,7 +50,7 @@
 6. Быстрые примеры (копировать/использовать)
 
 - Транскодинг (поток): смотреть `VideoManager.handleConversion()` → `handleVideoProcessing({ ffmpegRef, setTranscoding, videoRef, videoUrlRef, setFile })`.
-- Сборка аргументов: `buildFFmpegArgs({ fileName, flipHorizontal, flipVertical, preset, crf, removeMetadata, format })` — теперь поддерживаетformat: `'MP4'` (libx264) или `'WebM'` (libvpx/libvorbis).
+- Сборка аргументов: `buildFFmpegArgs({ fileName, flipHorizontal, flipVertical, preset, crf, removeMetadata, format, removeSound })` — поддерживает форматы: `'MP4'` (libx264) и `'WebM'` (libvpx/libvorbis). Также добавлена новая функциональность для удаления аудиодорожек с помощью параметра `removeSound`.
 - Извлечение кадров: `extractFrames(file, count)` создаёт video+canvas, ставит `currentTime`, делает `canvas.toBlob(...)` и возвращает массив {url,time}. Всегда вызывать `URL.revokeObjectURL` для очищаемых URL.
 - Прогресс: `ffmpeg.on('progress', ({ progress: ratio }) => setProgress(Math.round(ratio * 100))`.
 - Языки: использовать `LanguageSwitcherButton` для смены locale (`/en`, `/ru`). Переводы в `app/i18n/locales/{en,ru}`.
