@@ -38,7 +38,7 @@ function VideoManager() {
     const [outputSize, setOutputSize] = useState<number | null>(null);
 
     const [format, setFormat] = useState<FormatSelect>('MP4');
-    const [resolution, setResolution] = useState<Resolution>('1080p');
+    const [resolution, setResolution] = useState<Resolution>('1080');
 
     const handleReset = () => {
         setProgress(0);

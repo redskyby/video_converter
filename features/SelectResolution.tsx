@@ -20,8 +20,8 @@ const SelectResolution = ({
     return (
         <Select
             className="w-[256px]"
-            placeholder="Select one"
             selectedKey={resolution}
+            placeholder="Select one"
             onSelectionChange={(key) => setResolution(key as Resolution)}
             isDisabled={isDisabled}
         >
@@ -32,15 +32,15 @@ const SelectResolution = ({
             </Select.Trigger>
             <Select.Popover>
                 <ListBox>
-                    <ListBox.Item id="1080p" textValue="1080p">
+                    <ListBox.Item id="1080" textValue="1080">
                         1080p
                         <ListBox.ItemIndicator />
                     </ListBox.Item>
-                    <ListBox.Item id="720p" textValue="720p">
+                    <ListBox.Item id="720" textValue="720">
                         720p
                         <ListBox.ItemIndicator />
                     </ListBox.Item>
-                    <ListBox.Item id="480p" textValue="480p">
+                    <ListBox.Item id="480" textValue="480">
                         480p
                         <ListBox.ItemIndicator />
                     </ListBox.Item>

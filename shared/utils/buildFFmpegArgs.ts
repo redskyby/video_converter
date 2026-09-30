@@ -1,13 +1,4 @@
-import { logBuildDebugHint } from 'next/dist/server/app-render/blocking-route-messages';
-
 import { BuildFFmpegArgsProps } from '@/shared/interfaces/BuildFFmpegArgsProps';
-import { Resolution } from '@/shared/types/Resolution';
-
-const resolutionMap: Record<Resolution, number> = {
-    '1080p': 1080,
-    '720p': 720,
-    '480p': 480,
-};
 
 export const buildFFmpegArgs = ({
     fileName,
@@ -39,9 +30,7 @@ export const buildFFmpegArgs = ({
     }
 
     if (resolution) {
-        const height = resolutionMap[resolution];
-
-        filters.push(`scale=-2:${height}`);
+        filters.push(`scale=-2:${resolution}`);
     }
 
     if (extension === 'webm') {

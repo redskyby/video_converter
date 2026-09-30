@@ -10,7 +10,7 @@ export const detailsStore = create<VideoDetails>((set) => ({
     crf: 23,
     removeMetadata: false,
     removeSound: false,
-    resolution: '1080p',
+    resolution: '1080',
 
     setFlipHorizontal: (value: boolean) => set({ flipHorizontal: value }),
 
@@ -32,6 +32,6 @@ export const detailsStore = create<VideoDetails>((set) => ({
             flipVertical: false,
             removeMetadata: false,
             removeSound: false,
-            resolution: '1080p',
+            resolution: '1080',
         }),
 }));
