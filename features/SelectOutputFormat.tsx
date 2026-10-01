@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { SelectOutputFormatProps } from '@/shared/interfaces/SelectOutputFormatProps';
 import { FormatSelect } from '@/shared/types/FormatSelect';
 
+import formatOptions from '../shared/config/videoFormatOptions.json';
+
 const SelectOutputFormat = ({ currentFormat, selectFormat, isDisabled }: SelectOutputFormatProps) => {
     const { t } = useTranslation('videoFormat');
 
@@ -23,14 +25,12 @@ const SelectOutputFormat = ({ currentFormat, selectFormat, isDisabled }: SelectO
             </Select.Trigger>
             <Select.Popover>
                 <ListBox>
-                    <ListBox.Item id="MP4" textValue="MP4">
-                        MP4
-                        <ListBox.ItemIndicator />
-                    </ListBox.Item>
-                    <ListBox.Item id="WebM" textValue="WebM">
-                        WebM
-                        <ListBox.ItemIndicator />
-                    </ListBox.Item>
+                    {formatOptions.map((format) => (
+                        <ListBox.Item key={format.id} id={format.id} textValue={format.textValue}>
+                            {format.textValue}
+                            <ListBox.ItemIndicator />
+                        </ListBox.Item>
+                    ))}
                 </ListBox>
             </Select.Popover>
         </Select>

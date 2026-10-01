@@ -1,0 +1,26 @@
+[
+    {
+        "id": "flipHorizontal",
+        "label": "flipHorizontal",
+        "description": "flipHorizontalDescription",
+        "value": "flipHorizontal"
+    },
+    {
+        "id": "flipVertical",
+        "label": "flipVertical",
+        "description": "flipVerticalDescription",
+        "value": "flipVertical"
+    },
+    {
+        "id": "removeMetadata",
+        "label": "removeMetadata",
+        "description": "removeMetadataDescription",
+        "value": "removeMetadata"
+    },
+    {
+        "id": "removeSound",
+        "label": "removeSound",
+        "description": "removeSoundDescription",
+        "value": "removeSound"
+    }
+]

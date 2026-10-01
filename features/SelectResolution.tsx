@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Resolution } from '@/shared/types/Resolution';
 
-//TODO : ИСПРАВИТЬ "<Label>{t('videoResolution')}</Label>". Проблема : не переключается
+import options from '../shared/config/resolutionOptions.json';
 
 const SelectResolution = ({
     resolution,
@@ -32,18 +32,12 @@ const SelectResolution = ({
             </Select.Trigger>
             <Select.Popover>
                 <ListBox>
-                    <ListBox.Item id="1080" textValue="1080">
-                        1080p
-                        <ListBox.ItemIndicator />
-                    </ListBox.Item>
-                    <ListBox.Item id="720" textValue="720">
-                        720p
-                        <ListBox.ItemIndicator />
-                    </ListBox.Item>
-                    <ListBox.Item id="480" textValue="480">
-                        480p
-                        <ListBox.ItemIndicator />
-                    </ListBox.Item>
+                    {options.map((option) => (
+                        <ListBox.Item key={option.id} id={option.id} textValue={option.textValue}>
+                            {option.textValue}
+                            <ListBox.ItemIndicator />
+                        </ListBox.Item>
+                    ))}
                 </ListBox>
             </Select.Popover>
         </Select>
